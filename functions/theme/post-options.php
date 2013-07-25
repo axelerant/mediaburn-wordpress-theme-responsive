@@ -162,14 +162,21 @@ function custom_add_save($postID){
 	}
 
 	if ($_POST['save'] || $_POST['publish']) {
-		update_custom_meta($postID, $_POST['wpzoom_is_featured'], 'wpzoom_is_featured');
-		update_custom_meta($postID, $_POST['wpzoom_post_template'], 'wpzoom_post_template');
-		update_custom_meta($postID, $_POST['wpzoom_post_embed_location'], 'wpzoom_post_embed_location');
-		update_custom_meta($postID, $_POST['wpzoom_video_type'], 'wpzoom_video_type');
-		update_custom_meta($postID, $_POST['wpzoom_post_embed_code'], 'wpzoom_post_embed_code');
-		update_custom_meta($postID, $_POST['wpzoom_post_embed_self'], 'wpzoom_post_embed_self');
-		update_custom_meta($postID, $_POST['wpzoom_post_embed_hd'], 'wpzoom_post_embed_hd');
-		update_custom_meta($postID, $_POST['wpzoom_post_embed_skin'], 'wpzoom_post_embed_skin');
+		$fields = array(
+			'wpzoom_is_featured',
+			'wpzoom_post_template',
+			'wpzoom_post_embed_location',
+			'wpzoom_video_type',
+			'wpzoom_post_embed_code',
+			'wpzoom_post_embed_self',
+			'wpzoom_post_embed_hd',
+			'wpzoom_post_embed_skin',
+		);
+
+		foreach ( $fields as $field ) {
+			if ( isset( $_POST[ $field ] ) )
+				update_custom_meta( $postID, $_POST[ $field ], $field );
+		}
  	}
 }
 
