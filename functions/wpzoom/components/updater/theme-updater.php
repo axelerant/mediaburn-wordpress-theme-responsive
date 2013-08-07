@@ -24,7 +24,8 @@ class WPZOOM_Theme_Updater {
     public static function get_remote_version() {
         global $wp_version;
 
-        $url  = 'http://wploy.wpzoom.com/changelog/' . WPZOOM::$theme_raw_name;
+        $version = '';
+        $url     = 'http://wploy.wpzoom.com/changelog/' . WPZOOM::$theme_raw_name;
 
         $options = array(
             'timeout'    => 3,
