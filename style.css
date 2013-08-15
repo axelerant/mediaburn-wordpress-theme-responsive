@@ -401,7 +401,7 @@ img.alignleft {	margin: 0 10px 5px 0;	display: inline;	}
 #main ol.normalComments li {list-style-type: none; margin: 0 0 20px; padding: 15px; font-size: 12px; line-height: 18px; min-height: 60px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 #main ol.normalComments li ul.children {padding: 10px 0 0; }
 #main ol.normalComments li ul.children li {clear: left; margin: 0 10px 10px 10px; }
-#main ol.normalComments li p {margin-bottom: 0; overflow:hidden;}
+#main ol.normalComments li p {margin-bottom: 0;}
 
 #main ol.normalComments img.avatar { float: left; margin: 0 15px 15px 0; }
 #main ol.normalComments cite {font-size: 14px; line-height: 18px; font-weight: bold; font-style: normal; float: left; display: inline; margin-right: 25px;  }
