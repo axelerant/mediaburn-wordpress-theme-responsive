@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
  */
 jQuery(document).ready(function($) {
     $("SELECT").selectBox();
-    
+
     //When page loads...
     $(".tab_content").hide();
     $(".tab_content .sub").hide(); // Hide all subtabs
@@ -43,31 +43,31 @@ jQuery(document).ready(function($) {
     });
 
     $(".wz-parent > a").click(function() {
-        // prevent flickering 
-        if ($(this).parent().hasClass('active')) { 
-            return false; 
+        // prevent flickering
+        if ($(this).parent().hasClass('active')) {
+            return false;
         }
         var id = $(this).parent().attr("id");
         var activeTab = $(this).attr('href');
-        
+
         $(".wz-parent").removeClass('active');
 
         // close all other tabs
         $("#zoomWrap .tabs .sub").removeClass('active');
         $("#zoomWrap .tabs ul").slideUp('fast');
 
-        
+
         $(this).parent().find('ul').slideDown('fast');
         $(this).parent().addClass('active');
-        
+
         if ($(this).parent().hasClass('active')) {
             $(".sub").removeClass('active');
-            
+
             $(this).parent().find('li:first').addClass('active');
-            
+
             $(".zoomForms .sub").hide();
             $(".tab_content").hide();
-            
+
             $(activeTab).show();
             $(activeTab + ' .sub').first().slideDown();
 
@@ -78,27 +78,27 @@ jQuery(document).ready(function($) {
         return false;
 
     });
-    
+
     $(".sub > a").click(function() {
-        // prevent flickering 
-        if ($(this).parent().hasClass('active')) { 
-            return false; 
+        // prevent flickering
+        if ($(this).parent().hasClass('active')) {
+            return false;
         }
         $(".sub").removeClass('active');
         $(this).parent().addClass('active');
         var p = $(this).parent().parent().parent().find('a').first().attr('href');
-        
+
         $(".wz-parent").removeClass('active');
         $(this).parent().parent().parent().addClass('active');
-        
+
         $(".zoomForms .sub").hide();
         $(".tab_content").hide();
-        
+
 
         var activeTab = $(this).attr('href');
         $(p).show();
         $(activeTab).show();
-        
+
         return false;
     });
 
@@ -202,15 +202,15 @@ jQuery(document).ready(function($) {
 jQuery(document).ready(function($) {
     $("#misc_load_default_widgets").click(function(e) {
         e.preventDefault();
-        
+
         var loading = $("#zoomLoading");
         var success = $("#zoomSuccess");
         var fail    = $("#zoomFail");
-        
+
         success.find('p').text('Widgets successfully loaded!');
-        
+
         loading.fadeIn();
-        
+
         var data = {
             type: 'widgets_default',
             action: 'wpzoom_widgets_default',
@@ -218,7 +218,7 @@ jQuery(document).ready(function($) {
         };
 
         var ask = confirm('Are you sure you want to restore default widgets? All previous changes made to widgets will be reset!');
-            
+
         if (!ask) {
             loading.fadeOut();
 
@@ -242,8 +242,8 @@ jQuery(document).ready(function($) {
                 }, 10000);
             }
         });
-        
-        
+
+
 
         return false;
     });
@@ -261,47 +261,47 @@ jQuery(document).ready(function($) {
         var loading = $("#zoomLoading");
         var success = $("#zoomSuccess");
         var fail    = $("#zoomFail");
-        
+
         success.find('p').text('Options successfully saved!');
-        
+
         loading.fadeIn();
-    
+
         function fData() {
             var values = $("#zoomForm").serialize();
-            
+
             return values;
         }
-        
+
         var data = {
             type: 'options',
             action: 'wpzoom_ajax_post',
             data: fData(),
             '_ajax_nonce': $("#nonce").val()
         };
-        
-      
+
+
         var ask;
         var wpzoom_import;
-        
+
         if ($("#misc_import").val() != '') {
             ask = confirm('Are you sure you want to import these settings? All previous changes will be overwritten!');
             wpzoom_import = true;
         }
-        
+
         if ($("#misc_import_widgets").val() != '') {
             ask = confirm('Are you sure you want to import these widgets? All previous changes will be overwritten!');
             wpzoom_import = true;
         }
-        
+
         if (!ask && wpzoom_import) {
                 loading.fadeOut();
                 return false;
         }
-            
-      
+
+
         $("#misc_export").html('Please refresh this page and then get export data. Don\'t forget to save if you changed something.');
         $("#misc_export_widgets").html('Please refresh this page and then get export data. Don\'t forget to save if you changed something.');
-        
+
         $.post(wpzoom_ajax_url, data, function(response) {
             if ($.trim(response) === 'success') {
                 loading.fadeOut();
@@ -320,7 +320,7 @@ jQuery(document).ready(function($) {
                 }, 10000);
             }
         });
-        
+
         return false;
     });
 
@@ -331,7 +331,7 @@ jQuery(document).ready(function($) {
             return false;
         }
     });
-    
+
 });
 
 /**
@@ -340,9 +340,9 @@ jQuery(document).ready(function($) {
 jQuery(document).ready(function($) {
     $( '.colorSelector').each ( function () {
         var colourPicker = $(this).ColorPicker({
-    
+
             color: $(this).next( 'input').attr( 'value' ),
-            
+
             onShow: function (colpkr) {
                 $(colpkr).fadeIn(500);
                 return false;
@@ -355,9 +355,9 @@ jQuery(document).ready(function($) {
                 $(colourPicker).children( 'div').css( 'backgroundColor', '#' + hex);
                 $(colourPicker).next( 'input').attr( 'value','#' + hex);
             }
-        
+
         });
-        
+
         $(this).children( 'div').css( 'backgroundColor', $(this).next( 'input').attr( 'value' ));
     });
 });
@@ -367,9 +367,9 @@ jQuery(document).ready(function($) {
  */
 jQuery(document).ready(function($) {
     mlu = {
-    
+
     removeFile: function () {
-        $('.mlu_remove').live('click', function(event) { 
+        $('.mlu_remove').live('click', function(event) {
             $(this).hide();
             $(this).parents().parents().children('.upload').attr('value', '');
             $(this).parents('.screenshot').slideUp();
@@ -378,38 +378,38 @@ jQuery(document).ready(function($) {
         });
 
         $('a.delete-inline', "#option-1").hide();
-    
+
     },
-    
+
     recreateFileField: function () {
         $('input.file').each(function(){
             var uploadbutton = '<input class="upload_file_button" type="button" value="Upload" />';
             $(this).wrap('<div class="file_wrap" />');
             $(this).addClass('file').css('opacity', 0);
             $(this).parent().append($('<div class="fake_file" />').append($('<input type="text" class="upload" />').attr('id',$(this).attr('id')+'_file')).val( $(this).val() ).append(uploadbutton));
-            
+
             $(this).bind('change', function() {
                 $('#'+$(this).attr('id')+'_file').val($(this).val());
             });
-            
+
             $(this).bind('mouseout', function() {
                 $('#'+$(this).attr('id')+'_file').val($(this).val());
             });
         });
-    
+
     },
-    
+
     mediaUpload: function () {
-    
+
         $.noConflict();
-        
+
         $( 'input.upload_button' ).removeAttr('style');
-        
+
         var formfield,
             formID,
             btnContent = true,
             tbframe_interval;
-        
+
         // On Click
         $('input.upload_button').live("click", function () {
             formfield = $(this).prev('input').attr('id');
@@ -421,52 +421,52 @@ jQuery(document).ready(function($) {
             }, 2000);
 
             var wpzoom_title = '';
-            
+
             if ($(this).parents('.section').find('.heading')) { wpzoom_title = $(this).parents('.section').find('.heading').text(); }
-        
+
             tb_show( wpzoom_title, 'media-upload.php?post_id='+formID+'&TB_iframe=1&width=650' );
             return false;
         });
-        
+
         window.original_send_to_editor = window.send_to_editor;
         window.send_to_editor = function(html) {
-        
+
         if (formfield) {
 
             clearInterval(tbframe_interval);
-            
+
             if ( $(html).html(html).find('img').length > 0 ) {
-            
+
                 itemurl = $(html).html(html).find('img').attr('src');
-            
+
             } else {
-                
+
                 var htmlBits = html.split("'");
                 itemurl = htmlBits[1];
-                
+
                 var itemtitle = htmlBits[2];
-                
+
                 itemtitle = itemtitle.replace( '>', '' );
                 itemtitle = itemtitle.replace( '</a>', '' );
-            
+
             }
-            
+
             var image = /(^.*\.jpg|jpeg|png|gif|ico*)/gi;
             var document = /(^.*\.pdf|doc|docx|ppt|pptx|odt*)/gi;
             var audio = /(^.*\.mp3|m4a|ogg|wav*)/gi;
             var video = /(^.*\.mp4|m4v|mov|wmv|avi|mpg|ogv|3gp|3g2*)/gi;
-            
+
             if (itemurl.match(image)) {
                 btnContent = '<img src="'+itemurl+'" alt="" /><a href="#" class="mlu_remove button">Remove Image</a>';
             } else {
                 html = '<a href="'+itemurl+'" target="_blank" rel="external">View File</a>';
                 btnContent = '<div class="no_image"><span class="file_link">'+html+'</span><a href="#" class="mlu_remove button">Remove</a></div>';
             }
-        
+
             $('#' + formfield).val(itemurl);
             $("#" + formfield + "_image").slideDown().html(btnContent);
             tb_remove();
-            
+
             } else {
                 window.original_send_to_editor(html);
             }
@@ -480,7 +480,7 @@ jQuery(document).ready(function($) {
 
     mlu.removeFile();
     mlu.recreateFileField();
-    mlu.mediaUpload();  
+    mlu.mediaUpload();
 });
 
 /**
@@ -530,13 +530,11 @@ jQuery.cookie = function (key, value, options) {
  * Custom jQuery radio buttons
  */
 
-jQuery(document).ready(
-function($)
-{
-    $(".RadioClass").change(function(){  
-        if($(this).is(":checked")){  
-            $(".RadioSelected:not(:checked)").removeClass("RadioSelected");  
-            $(this).next("label").addClass("RadioSelected");  
-        }  
-    }); 
-});  
+jQuery(document).ready(function($) {
+    $(".RadioClass").change(function() {
+        if ($(this).is(":checked")) {
+            $(this).parent().find(".RadioSelected:not(:checked)").removeClass("RadioSelected");
+            $(this).next("label").addClass("RadioSelected");
+        }
+    });
+});

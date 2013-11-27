@@ -23,15 +23,16 @@ class option {
     }
     
     public static function get($name, $echo = false) {
-        $result = null;
+        $result = false;
         if (isset(self::$options[$name])) {
             $result = self::$options[$name];
         }
         
-        if (!$result) {
+        if ($result === false) {
             $result = get_option(self::$prefix . $name);
         }
-        if (!$result) {
+
+        if ($result === false) {
             return;
         }
 
@@ -48,7 +49,7 @@ class option {
         
         if ($num == 1) {
             return (delete_option(self::$prefix . $args[0]) ? true : false);
-        } elseif (count($args) > 1) {
+        } elseif ($num > 1) {
             foreach ($args as $option) {
                 if (!delete_option(self::$prefix . $option))
                     return false;

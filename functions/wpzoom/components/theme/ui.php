@@ -36,20 +36,20 @@ class ui {
             wp_title('-');
             return;
         }
-        
-        if (is_home()) {
+
+        if (is_front_page()) {
             if (option::get('seo_home_title') == 'Site Title - Site Description') echo get_bloginfo('name').option::get('title_separator').get_bloginfo('description');
             if (option::get('seo_home_title') == 'Site Description - Site Title') echo get_bloginfo('description').option::get('title_separator').get_bloginfo('name');
             if (option::get('seo_home_title') == 'Site Title') echo get_bloginfo('name');
         }
-        
+
         #if the title is being displayed on single posts/pages
         if (is_single() || is_page()) {
             if (option::get('seo_posts_title') == 'Site Title - Page Title') echo get_bloginfo('name').option::get('title_separator').wp_title('',false,'');
             if (option::get('seo_posts_title') == 'Page Title - Site Title') echo wp_title('',false,'').option::get('title_separator').get_bloginfo('name');
             if (option::get('seo_posts_title') == 'Page Title') echo wp_title('',false,'');
         }
-        
+
         #if the title is being displayed on index pages (categories/archives/search results)
         if (is_category() || is_archive() || is_search()) {
             if (option::get('seo_pages_title') == 'Site Title - Page Title') echo get_bloginfo('name').option::get('title_separator').wp_title('',false,'');
@@ -61,7 +61,7 @@ class ui {
     /**
      * Prepares TimThumb's crop location
      */
-     
+
     public static function getCropLocation($location = 'c') {
 
         switch (strtolower($location)) {
@@ -69,19 +69,19 @@ class ui {
             default:
             $zone = 'c';
             break;
-            
+
             case"align top":
             $zone = 't';
             break;
-            
+
             case"align bottom":
             $zone = 'b';
             break;
-            
+
             case"align left":
             $zone = 'l';
             break;
-            
+
             case"align right":
             $zone = 'r';
             break;
@@ -89,66 +89,66 @@ class ui {
 
         return $zone;
     }
-    
+
     /**
      * Returns the link to image
      */
     public static function getImage($width, $height, $location = 'c') {
         global $blog_id;
-    
+
         $image = get_the_image(array(
             'format' => 'array'
         ));
-        
+
        if (isset($image['src']) && $image['src'] != '') {
             $image = $image['src'];
-             
+
             $imageParts = explode('/files/', $image);
-            
+
             $filehost = parse_url($image);
             $localhost = $_SERVER['HTTP_HOST'];
-            
+
             if (isset($imageParts[1]) && ($filehost['host'] == $localhost)) {
                 $image = '/blogs.dir/' . $blog_id . '/files/' . $imageParts[1];
             }
-            
+
             $location = ui::getCropLocation($location);
-            
+
             return get_template_directory_uri() . '/functions/theme/thumb.php?src=' . $image . '&amp;w=' . $width . '&amp;h=' . $height . '&amp;zc=1' . '&amp;a=' . $location;
         }
-        
+
         return false;
     }
-    
+
     public static function thumbIt($image, $width, $height, $return = false, $location = 'c') {
         if (!$image) {
             return false;
         }
-    
+
         global $blog_id;
-    
+
         $imageParts = explode('/files/', $image);
-            
+
         $filehost = parse_url($image);
         $localhost = $_SERVER['HTTP_HOST'];
-            
+
         if (isset($imageParts[1]) && ($filehost['host'] == $localhost)) {
             $image = '/blogs.dir/' . $blog_id . '/files/' . $imageParts[1];
         }
-        
+
         $location = ui::getCropLocation($location);
-            
+
          $url = get_template_directory_uri() . '/functions/theme/thumb.php?src=' . $image . '&amp;w=' . $width . '&amp;h=' . $height . '&amp;zc=1' . '&amp;a=' . $location;
-        
+
         if ($return) {
             return $url;
         }
-        
+
         echo $url;
     }
-    
+
     /**
-     * Return an array of categories 
+     * Return an array of categories
      * if $parent is true returns only top level categories
      *
      * @param boolean $parent
@@ -156,15 +156,15 @@ class ui {
      */
     public static function getCategories($parent = false) {
         global $wpdb, $table_prefix;
-        
+
         $tb1 = $table_prefix . "terms";
         $tb2 = $table_prefix . "term_taxonomy";
-        
+
         $qqq = $parent ? "AND $tb2" . ".parent = 0" : "";
-        
+
         $q = "SELECT $tb1.term_id,$tb1.name,$tb1.slug FROM $tb1,$tb2 WHERE $tb1.term_id = $tb2.term_id AND $tb2.taxonomy = 'category' $qqq ORDER BY $tb1.name ASC";
         $q = $wpdb->get_results($q);
-        
+
         foreach ($q as $cat) {
             $categories[$cat->term_id] = $cat->name;
         }
@@ -179,16 +179,16 @@ class ui {
      */
     public static function getPages() {
         global $wpdb, $table_prefix;
-        
+
         $tb1 = $table_prefix . "posts";
-        
+
         $q = "SELECT $tb1.ID,$tb1.post_title FROM $tb1 WHERE $tb1.post_type = 'page' AND $tb1.post_status = 'publish' ORDER BY $tb1.post_title ASC";
         $q = $wpdb->get_results($q);
-        
+
         foreach ($q as $pag) {
             $pages[$pag->ID] = $pag->post_title;
         }
-        
+
         return $pages;
     }
 
@@ -206,7 +206,7 @@ class ui {
         $content = apply_filters('the_content', $content);
         $content = str_replace(']]>', ']]&gt;', $content);
         $content = strip_tags($content);
-        
+
         if (strlen($_GET['p']) > 0 && $thisshouldnotapply) {
             echo $content;
         } elseif ((strlen($content) > $maxChars) && ($espacio = strpos($content, " ", $maxChars))) {
@@ -219,7 +219,7 @@ class ui {
         }
     }
 
-    
+
 
     /**
      * WPZOOM javascript includer
@@ -231,15 +231,15 @@ class ui {
      */
     public static function js() {
         $args = func_get_args();
-        
+
         foreach ($args as $name) {
             echo '<script type="text/javascript" src="' . get_template_directory_uri() . '/js/' . $name . '.js"></script>' . "\n";
         }
     }
-    
+
     /**
      * Checks if WordPress version is greater or equal to $is_ver
-     * 
+     *
      * @param  string  $is_ver version to be checked
      * @return boolean
      */
@@ -258,13 +258,13 @@ class ui {
                 return false;
             }
         }
-        
+
         return true;
     }
 
     /**
      * Recognized font families
-     * 
+     *
      * @param  string $id The unique field id
      * @return array      Fonts supported by theme
      */
@@ -276,7 +276,7 @@ class ui {
             'palatino'  => 'Palatino',
             'tahoma'    => 'Tahoma',
             'times'     => '"Times New Roman", sans-serif',
-            'trebuchet' => 'Trebuchet',
+            'trebuchet' => '"Trebuchet MS"',
             'verdana'   => 'Verdana'
         ), $id);
     }
@@ -328,7 +328,7 @@ class ui {
 
     /**
      * Recognized font styles
-     * 
+     *
      * @param  string $id The unique field id
      * @return array      Font styles supported by theme
      */
@@ -350,7 +350,7 @@ class ui {
          */
         wp_head();
     }
-    
+
     /**
      * WPZOOM public footer
      */

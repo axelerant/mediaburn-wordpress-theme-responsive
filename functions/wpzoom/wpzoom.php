@@ -6,7 +6,7 @@
  */
 
 class WPZOOM {
-    public static $wpzoomVersion = '1.3.8';
+    public static $wpzoomVersion = '1.3.9';
     public static $wpzoomPath;
     
     public static $assetsPath;

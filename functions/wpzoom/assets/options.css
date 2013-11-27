@@ -1020,3 +1020,10 @@ img.layout-select:hover {
 .tgmpa .selectBox-dropdown {
     width:110px;
 }
+
+/**
+ * Temporary fixes for MP6 users.
+ */
+.checkbox, p.submit {
+    border: none;
+}

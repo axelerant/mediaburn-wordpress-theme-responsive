@@ -225,16 +225,15 @@ class WPZOOM_Admin_Settings_Fields {
     public function select_layout($args) {
         extract($args);
 
-        $z = 0;
         $out.= "<label>$name</label>";
+
         foreach ($options as $key => $val) {
-            $z++;
-            $out.= "<input id=\"$key\" type=\"radio\" class=\"RadioClass\" name=\"$id\" value=\"$key\"";
+            $out.= "<input id=\"$id--$key\" type=\"radio\" class=\"RadioClass\" name=\"$id\" value=\"$key\"";
             if (option::get($id) == $key) {
-                $out .= ' selected="selected"';
+                $out .= ' checked';
             }
             $out.= ' />';
-            $out.= "<label for=\"$key\" class=\"RadioLabelClass";
+            $out.= "<label for=\"$id--$key\" class=\"RadioLabelClass";
             if (option::get($id) == $key) {
                 $out .= ' RadioSelected';
             }
