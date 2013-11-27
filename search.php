@@ -27,12 +27,11 @@
 		       <?php get_template_part('loop-search'); ?>
 
 <?php
-if ( false && function_exists('relevanssi_didyoumean') )
-	relevanssi_didyoumean( get_search_query(), '<p>Did you mean: <strong>', '</strong>?</p>', 10 );
+if ( function_exists( 'relevanssi_didyoumean' ) )
+	relevanssi_didyoumean( get_search_query(), '<h3>Did you mean?</h3><p>', '</p>', 5 );
 
-if ( function_exists('relevanssi_related') )
-	    relevanssi_related( get_search_query(), '<h3>Related Searches:</h3><ul><li>', '</li><li>', '</li></ul>', 5);
-
+if ( function_exists( 'relevanssi_related' ) )
+    relevanssi_related( get_search_query(), '<h3>Related Searches:</h3><ul><li>' );
 ?>
 			         
 			</div><!-- /#archive -->

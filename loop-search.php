@@ -53,3 +53,7 @@ if (option::get('display_date') == 'on') {
 	<?php endforeach; ?>
 </ul>
 <div class="cleaner">&nbsp;</div> 
+<?php
+if ( empty( $posts ) )
+	 echo "\n<br /><p><strong>We're very sorry, your search returned no results.</strong></p>";
+?>
