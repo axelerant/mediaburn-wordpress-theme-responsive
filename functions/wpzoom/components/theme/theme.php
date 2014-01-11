@@ -41,15 +41,15 @@ class WPZOOM_Theme {
      */
     public static function header_code() {
         $header_code = trim(stripslashes(option::get('header_code')));
-        
+
         if ($header_code) {
             echo stripslashes(option::get('header_code'));
         }
     }
-    
+
     public static function footer_code() {
         $footer_code = trim(stripslashes(option::get('footer_code')));
-        
+
         if ($footer_code) {
             echo stripslashes(option::get('footer_code'));
         }
@@ -72,7 +72,7 @@ class WPZOOM_Theme {
 
         echo '<meta name="keywords" content="'.$meta_post_keywords.'" />' . "\n";
     }
-    
+
     /**
      * Keywords meta tag for SEO on homepage
      */
@@ -82,7 +82,7 @@ class WPZOOM_Theme {
             echo '<meta name="keywords" content="' . $keywords . '" />' . "\n";
         }
     }
-    
+
     /**
      * Canonical meta tag for SEO
      */
@@ -90,16 +90,16 @@ class WPZOOM_Theme {
         global $wp_query;
 
         if(option::is_on('canonical')) {
-        
+
             #homepage urls
             if (is_home() )echo '<link rel="canonical" href="'.get_bloginfo('url').'" />';
-            
+
             #single page urls
             $postid = $wp_query->post->ID;
-            
+
             if (is_single() || is_page()) echo '<link rel="canonical" href="'.get_permalink().'" />';
-            
-            #index page urls            
+
+            #index page urls
             if (is_archive() || is_category() || is_search()) echo '<link rel="canonical" href="'.get_permalink().'" />';
         }
     }
@@ -126,7 +126,7 @@ class WPZOOM_Theme {
                 echo '<meta name="description" content="' . self::description() . '" />' . "\n";
                 self::metaHomeKeywords();
             }
-            
+
             self::index();
         }
     }
@@ -140,7 +140,7 @@ class WPZOOM_Theme {
         if(!empty($post)){
             $post_id = $post->ID;
         }
-        
+
         /* Robots */
         $index = 'index';
         $follow = 'follow';
@@ -196,10 +196,10 @@ class WPZOOM_Theme {
         $mg = "<!-- WPZOOM Theme / Framework -->\n";
         $mg.= '<meta name="generator" content="' . WPZOOM::$themeName . ' ' . WPZOOM::$themeVersion . '" />' . "\n";
         $mg.= '<meta name="generator" content="WPZOOM Framework ' . WPZOOM::$wpzoomVersion . '" />' . "\n";
-        
+
         echo $mg;
     }
-    
+
     /**
      * Include css file for specified style
      */
@@ -227,12 +227,14 @@ class WPZOOM_Theme {
          * Enqueue initialization script, HTML5 Shim included
          */
         wp_enqueue_script('wpzoom-init',  get_template_directory_uri() . '/js/init.js', array('jquery'));
-        
+
         /**
          * Enqueue all theme scripts specified in config file to the footer
          */
-        foreach (WPZOOM::$config['scripts'] as $script) {
-            wp_enqueue_script('wpzoom-' . $script,  get_template_directory_uri() . '/js/' . $script . '.js', array(), false, true);
+        if (isset(WPZOOM::$config['scripts'])) {
+            foreach (WPZOOM::$config['scripts'] as $script) {
+                wp_enqueue_script('wpzoom-' . $script,  get_template_directory_uri() . '/js/' . $script . '.js', array(), false, true);
+            }
         }
     }
 
@@ -246,7 +248,7 @@ class WPZOOM_Theme {
             foreach ($Eoption as $option) {
                 if ((isset($option['type']) && $option['type'] == 'color') || isset($option['css'])) {
                     $value = option::get($option['id']);
-                    if (!trim($value) != "") continue;                    
+                    if (!trim($value) != "") continue;
                     $enable = true;
 
                     if (in_array($option['attr'], array('height', 'width')) &&
@@ -263,7 +265,7 @@ class WPZOOM_Theme {
                 }
             }
         }
-        
+
         if ($enable) {
             echo '<style type="text/css">';
             echo self::dynamic_google_webfonts_css();
@@ -275,7 +277,7 @@ class WPZOOM_Theme {
     /**
      * Registers Google Web Fonts in use so later we know what fonts
      * to include from Web Fonts directory
-     * 
+     *
      * @param  array $font Font data
      * @return void
      */
@@ -285,7 +287,7 @@ class WPZOOM_Theme {
 
     /**
      * Generates CSS import for used Google Web Fonts
-     * 
+     *
      * @return string The CSS Import String
      */
     public static function dynamic_google_webfonts_css() {

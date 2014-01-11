@@ -24,7 +24,7 @@ class WPZOOM_Admin_Settings_Page {
         }
 
         wp_enqueue_script('wpzoom-options', WPZOOM::$assetsPath . '/js/zoomAdmin.js', array('jquery', 'thickbox'), WPZOOM::$wpzoomVersion);
-        wp_enqueue_style('wpzoom-options', WPZOOM::$assetsPath . '/options.css', array(), WPZOOM::$wpzoomVersion);
+        wp_enqueue_style('wpzoom-options', WPZOOM::$assetsPath . '/options.css', array('thickbox'), WPZOOM::$wpzoomVersion);
 
         // Register the colourpicker JavaScript.
         wp_register_script( 'wpz-colourpicker', WPZOOM::$assetsPath . '/js/colorpicker.js', array( 'jquery' ), WPZOOM::$wpzoomVersion, true ); // Loaded into the footer.
