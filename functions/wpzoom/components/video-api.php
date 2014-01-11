@@ -19,7 +19,7 @@ class WPZOOM_Video_API {
 		if(empty($embed)) return false;
 
 		$url = self::extract_url_from_embed($embed);
-		if(empty($url) || filter_var($url, FILTER_VALIDATE_URL) === false) return false;
+		if($url === false) return false;
 
 		$video = self::extract_video_id($url);
 		if($video === false || !is_array($video)) return false;
@@ -73,6 +73,8 @@ class WPZOOM_Video_API {
 		if($iframe == null || !$iframe->hasAttributes()) return false;
 
 		$src = trim($iframe->attributes->getNamedItem('src')->nodeValue);
+		if(empty($src)) return false;
+		$src = self::normalize_url_protocol($src);
 		return !empty($src) && filter_var($src, FILTER_VALIDATE_URL) ? $src : false;
 	}
 
@@ -82,6 +84,8 @@ class WPZOOM_Video_API {
 	 */
 	public static function convert_embed_url($url) {
 		$url = html_entity_decode(trim($url));
+		if(empty($url)) return false;
+		$url = self::normalize_url_protocol($url);
 		if(empty($url) || filter_var($url, FILTER_VALIDATE_URL) === false) return false;
 
 		$url_parts = parse_url($url);
@@ -110,6 +114,8 @@ class WPZOOM_Video_API {
 	 */
 	public static function extract_video_id($url) {
 		$url = html_entity_decode(trim($url));
+		if(empty($url)) return false;
+		$url = self::normalize_url_protocol($url);
 		if(empty($url) || filter_var($url, FILTER_VALIDATE_URL) === false) return false;
 
 		$url_parts = parse_url($url);
@@ -133,5 +139,14 @@ class WPZOOM_Video_API {
 		}
 
 		return !empty($provider) && !empty($id) ? array('id' => $id, 'provider' => $provider) : false;
+	}
+
+	/**
+	 * Tries to make sure the given URL has a proper protocol, even if it was given without one (e.g. protocol-relative URLs)
+	 */
+	public static function normalize_url_protocol($url) {
+		$url = trim($url);
+		if(empty($url) || preg_match('#^https?://#i', $url)) return $url;
+		return 'http' . (is_ssl() ? 's' : '') . '://' . preg_replace('#^https?://#i', '', ltrim($url, '/'));
 	}
 }

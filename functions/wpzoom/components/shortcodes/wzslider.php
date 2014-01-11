@@ -21,7 +21,8 @@ class wzslider {
             'height'   => '500',
             'lightbox' => 'false',
             'clicknext' => 'true',
-            'transition' => 'fade'
+            'transition' => 'fade',
+            'exclude' => ''
          );
 
         $atts = shortcode_atts($default_atts, $atts);
@@ -60,6 +61,8 @@ class wzslider {
             self::$scriptAtts.= "transition: 'fade'";
         }
 
+        $exclude = array_map('intval', explode(',', $atts['exclude']));
+
         $args = array(
             'order'          => 'ASC',
             'orderby'        => 'menu_order',
@@ -71,11 +74,13 @@ class wzslider {
         );
 
         $attachments = get_posts($args);
-
+        
         if ($attachments) {       
             $content = '<div id="galleria-' . $post->ID . '">';
 
             foreach ($attachments as $attachment) {
+                if ( in_array( $attachment->ID, $exclude ) ) continue;
+
                 $url = wp_get_attachment_image_src($attachment->ID, 'large');
                 $url = $url[0];
 

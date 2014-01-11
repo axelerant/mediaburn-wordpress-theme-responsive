@@ -1,4 +1,8 @@
 /**
+ * WordPress wp-admin wide functionality.
+ */
+
+/**
  * Framework .update-nag notification close button.
  */
 jQuery(document).ready(function($) {

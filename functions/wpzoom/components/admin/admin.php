@@ -45,12 +45,17 @@ class WPZOOM_Admin {
 
     public static function wpadmin_script() {
         wp_enqueue_script('zoom-wp-admin', WPZOOM::$assetsPath . '/js/wp-admin.js', array('jquery'), WPZOOM::$wpzoomVersion);
+
+        echo '<script type="text/javascript">',
+                'var zoom_framework_root_uri    = "' . WPZOOM::get_root_uri() . '";',
+                'var zoom_framework_assets_uri  = "' . WPZOOM::get_assets_uri() . '";',
+             '</script>';
     }
 
     // public static function wpadmin_css() {
     //     wp_enqueue_style('zoom-wp-admin', WPZOOM::$assetsPath . '/css/wp-admin.css', array(), WPZOOM::$wpzoomVersion);
     // }
-    
+
     public static function activate() {
         if (option::get('wpzoom_activated') != 'yes') {
             option::set('wpzoom_activated', 'yes');
@@ -65,15 +70,15 @@ class WPZOOM_Admin {
         option::set('wpzoom_activated_time', time());
         require_once(WPZOOM_INC . '/pages/welcome.php');
     }
-    
+
     public static function admin() {
         require_once(WPZOOM_INC . '/pages/admin.php');
     }
-    
+
     public static function themes() {
         require_once(WPZOOM_INC . '/pages/themes.php');
     }
-    
+
     public static function update() {
         require_once(WPZOOM_INC . '/pages/update.php');
     }
@@ -82,10 +87,10 @@ class WPZOOM_Admin {
      * WPZOOM custom menu for wp-admin
      */
     public static function register_admin_pages() {
-        add_object_page ( 'Page Title', 'WPZOOM', 'manage_options','wpzoom_options', 'WPZOOM_Admin::admin', WPZOOM::$assetsPath . '/images/shortcode-icon.png');
-        
+        add_object_page ( 'Page Title', 'WPZOOM', 'manage_options','wpzoom_options', 'WPZOOM_Admin::admin', WPZOOM::$assetsPath . '/images/shortcodes/icon.png');
+
         add_submenu_page('wpzoom_options', 'WPZOOM',            'Theme Options',     'manage_options', 'wpzoom_options', array(__CLASS__, 'admin'));
-        
+
         if (option::is_on('framework_update_enable')) {
             add_submenu_page('wpzoom_options', 'Update Framework', 'Update Framework', 'update_themes', 'wpzoom_update', array(__CLASS__, 'update'));
         }

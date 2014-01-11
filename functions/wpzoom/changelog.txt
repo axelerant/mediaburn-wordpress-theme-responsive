@@ -1,5 +1,20 @@
-Zoom Framework Changelog 
+ZOOM Framework Changelog 
 ---------
+
+v 1.4.0 - December 12, 2013
+
+    - Numerous changes in Shortcodes Manager: flat button style, added a large variety of icons for buttons.
+    - Theme Options page slightly re-designed to match the feel & look of the WordPress 3.8 new admin style.
+    - Added option to exclude images in Slideshow Shortcode.
+    - Numerous other bug fixes & performance improvements
+ 
+
+v 1.3.9 - July 4, 2013
+    
+    - Automatic Video Thumbnails now supports updated YouTube embed code, that doesn't include "http:".
+
+    M   components/video-api.php
+    
 
 v 1.3.8 - April 6, 2013
 

@@ -44,6 +44,9 @@
 					</li>
 				<?php } ?>
 				<li>
+					<a href="http://media-burn-archive.tumblr.com/" rel="external,nofollow"><img src="<?php echo get_template_directory_uri(); ?>/images/icons/tumblr.png" width="16" height="16" alt="Follow Media Burn on Tumblr" ></a>
+				</li>
+				<li>
 					<a href="http://www.youtube.com/user/MediaBurnArchive" rel="external,nofollow"><img src="<?php echo get_template_directory_uri(); ?>/images/icons/youtube.png" width="16" height="16" alt="Watch Media Burn on YouTube" ></a>
 				</li>
 				<li><a href="/donate/" title="Donate" class="alert">Donate</a></li>
