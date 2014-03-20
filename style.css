@@ -552,8 +552,8 @@ div.navigation a,
 div.navigation .current {color: #fff; padding: 8px 12px; line-height: 50px; margin-right: 10px; -webkit-border-radius: 60px; -moz-border-radius: 60px; border-radius: 60px; border:none;}
 div.navigation a:hover {background-color: #333; color: #fff; text-decoration: none; }
 div.navigation .current { padding: 8px 12px; background-color: #55cc55; color: #fff;  -webkit-border-radius: 100px; -moz-border-radius: 100px; border-radius: 100px; border:none; margin-right: 10px;}
-div.navigation .prev {position:absolute; left:0; padding-right:5px;}
-div.navigation .next {position:absolute; right:0; padding-left:10px;}
+div.navigation .prev {padding-right:5px;}
+div.navigation .next {padding-left:10px;}
 div.navigation a.next, div.navigation a.prev {line-height:35px;}
 div.navigation a.next:hover, div.navigation a.prev:hover {background:none; color:#55CC55;}
 
