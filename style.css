@@ -57,7 +57,9 @@ blockquote cite {	margin: 5px 0 0;	display: block;	}
 .center {	text-align: center;	}
 .hidden {	display: none;	}
 .clear, .cleaner {	clear: both; height: 0;	overflow: hidden; }
+/*
 hr {	display: none;	}
+*/
 a img {	border: none;	}
 /* End Various Tags & Classes*/
 
