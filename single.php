@@ -256,12 +256,13 @@ $document_embed					= get_field('document_embed', $post->ID);
 if ( ! empty( $document_embed ) )
 	echo $document_embed;
 ?>
+				</div>
+
 <?php
 if ( function_exists( 'nrelate_related' ) ) {
 	nrelate_related();
 }
 ?>
-				</div>
 
 	         	<?php wp_link_pages(array('before' => '<p class="pages"><strong>Pages:</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
 	         	<p class="more"><?php edit_post_link( __('Edit this post &raquo;', 'wpzoom'), '', ''); ?></p>
