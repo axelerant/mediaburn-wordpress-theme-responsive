@@ -4,7 +4,19 @@
 <div id="main">
   
     <div class="wrapper">
-  
+    	<!-- >>> CHANGED BY DEZIO1900
+    		- added menu php code logic
+    		- added .vertical-menu-wrapper and vertical-menu-container
+    	-->
+    	<?php 
+    		$show_sidebar = is_active_sidebar( 'homepage-slider-sidebar' );
+    	?>
+    	<div class="<?php echo $show_sidebar ? 'homepage-slider-with-sidebar-wrapper' : ''; ?>">
+			<?php if( $show_sidebar ) : ?>
+			<ul>
+				<?php dynamic_sidebar( 'homepage-slider-sidebar' ); ?>
+			</ul>
+			<?php endif; ?>
 			<?php if ($paged < 2) { 
 				if (option::get('sidebar_home') == 'off') { echo "<div class=\"full\">"; }
 				
@@ -12,8 +24,10 @@
 				
 				<?php if (option::get('sidebar_home') == 'off') { echo "</div>"; }
 			} // if $paged < 2 ?> 
-	           
-		<?php if (option::get('featured_enable') == 'on' && is_home() && $paged < 2) { get_template_part('wpzoom', 'slider'); } // Show the Featured Slider? ?>
+		           
+			<?php if (option::get('featured_enable') == 'on' && is_home() && $paged < 2) { get_template_part('wpzoom', 'slider'); } // Show the Featured Slider? ?>
+		</div>
+		<!-- <<< CHANGED BY DEZIO1900 -->
 		
 		<?php if (option::get('sidebar_home') == 'off') { echo "<div class=\"full\">"; } ?>
 

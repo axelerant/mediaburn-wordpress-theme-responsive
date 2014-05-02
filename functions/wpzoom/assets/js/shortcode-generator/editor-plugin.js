@@ -1,134 +1,62 @@
-/**
- * Hook shortcodes to TineMCE
- *
- * @return void
- */
-(function() {
-    var icon_url = zoom_framework_assets_uri + '/images/shortcodes/icon.png';
+( function() {
+    // TinyMCE plugin start.
+    tinymce.PluginManager.add( 'wpzoomShortcodes', function( editor, url ) {
+        // Register a command to open the dialog.
+        editor.addCommand( 'wpzOpenDialog', function( ui, v ) {
+            wpzSelectedShortcodeType = v;
+            selectedText = editor.selection.getContent({format: 'text'});
 
-    tinymce.create(
-        "tinymce.plugins.wpzoomShortcodes",
-        {
-            init: function(d, e) {
-                d.addCommand("wpzOpenDialog", function(a, c) {
-                    // Grab the selected text from the content editor.
-                    selectedText = '';
+            jQuery.get(ajaxurl + '?action=zoom_shortcodes_ajax_dialog', function(html) {
+                jQuery( '#wpz-options' ).addClass( 'shortcode-' + v );
 
-                    if (d.selection.getContent().length > 0) {
-                        selectedText = d.selection.getContent();
-                    }
+                var width = Math.min(jQuery(window).width(), 720) - 80;
+                var height = jQuery(window).height() - 84;
 
-                    wpzSelectedShortcodeType = c.identifier;
-                    wpzSelectedShortcodeTitle = c.title;
+                jQuery("#wpz-dialog").remove();
+                jQuery("body").append(html);
+                jQuery("#wpz-dialog").hide();
 
-                    jQuery.get(ajaxurl + '?action=zoom_shortcodes_ajax_dialog', function(b) {
-                        jQuery( '#wpz-options').addClass('shortcode-' + wpzSelectedShortcodeType);
-                        jQuery( '#wpz-preview').addClass('shortcode-' + wpzSelectedShortcodeType);
+                tb_show( "Insert ["+ v +"] Shortcode", "#TB_inline?width="+width+"&height="+height+"&inlineId=wpz-dialog" );
+                jQuery( "#wpz-options h3:first").text( "Customize the ["+v+"] Shortcode" );
+            });
+        });
 
-                        // Skip the popup on certain shortcodes.
-                        var a;
-                        switch (wpzSelectedShortcodeType) {
-                            // Highlight
-                            case 'highlight':
-                                a = '[highlight]' + selectedText + '[/highlight]';
-                                tinyMCE.activeEditor.execCommand("mceInsertContent", false, a);
-                                break;
+        // Register a command to insert the shortcode immediately.
+        editor.addCommand( 'wpzInsertImmediate', function( ui, v ) {
+            var selected = editor.selection.getContent({format: 'text'});
 
-                            // Dropcap
-                            case 'dropcap':
-                                a = '[dropcap]' + selectedText + '[/dropcap]';
-                                tinyMCE.activeEditor.execCommand("mceInsertContent", false, a);
-                                break;
-
-                            default:
-                                var width  = jQuery(window).width()
-                                  , height = jQuery(window).height() - 84;
-
-                                width  = ((720 < width) ? 720 : width) - 80;
-
-                                jQuery("#wpz-dialog").remove();
-                                jQuery("body").append(b);
-                                jQuery("#wpz-dialog").hide();
-
-                                tb_show("Insert " + wpzSelectedShortcodeTitle + " Shortcode", "#TB_inline?width=" + width + "&height=" + height + "&inlineId=wpz-dialog");
-                                jQuery("#wpz-options h3:first").text("Customize the " + c.title + " Shortcode");
-                                break;
-                        }
-
-                    });
-
-                });
-
-                // d.onNodeChange.add(function(a,c){ c.setDisabled( "wpzoom_shortcodes_button",a.selection.getContent().length>0 ) } ) // Disables the button if text is highlighted in the editor.
-            },
-
-            createControl:function(d, e) {
-                if (d == "wpzoom_shortcodes_button") {
-                    d = e.createMenuButton("wpzoom_shortcodes_button", {
-                        'title' : "Insert Shortcode",
-                        'image' : icon_url,
-                        'icons' : false
-                    });
-
-                    var that = this;
-                    d.onRenderMenu.add(function(c, b) {
-                        that.addWithDialog(b, "Button", "button");
-                        that.addWithDialog(b, "Icon Link", "ilink");
-                        b.addSeparator();
-
-                        that.addWithDialog(b, "Info Box", "box");
-                        b.addSeparator();
-
-                        that.addWithDialog(b, "Column Layout", "column");
-                        b.addSeparator();
-
-                        c = b.addMenu({ 'title' : "List Generator" });
-                        that.addWithDialog(c, "Unordered List", "unordered_list");
-                        that.addWithDialog(c, "Ordered List", "ordered_list");
-
-                        c = b.addMenu({ 'title' : "Social Buttons" });
-                        that.addWithDialog(c, "Social Profile Icon", "social_icon");
-                        c.addSeparator();
-
-                        that.addWithDialog(c, "Twitter", "twitter");
-                        that.addWithDialog(c, "Like on Facebook", "fblike");
-                    });
-
-                    return d;
-                }
-
-                return null;
-            },
-
-            addImmediate: function(d, e, a) {
-                d.add({
-                    'title'   : e,
-                    'onclick' : function() {
-                        tinyMCE.activeEditor.execCommand("mceInsertContent", false, a);
-                    }
-                });
-            },
-
-            addWithDialog: function(d, e, a) {
-                d.add({
-                    'title'   : e,
-                    'onclick' : function() {
-                        tinyMCE.activeEditor.execCommand("wpzOpenDialog", false, { 'title' : e, 'identifier' : a});
-                    }
-                });
-            },
-
-            getInfo: function() {
-                return {
-                    'longname'  : "WPZOOM Shortcode Generator",
-                    'author'    : "WPZOOM",
-                    'authorurl' : "http://wpzoom.com/",
-                    'infourl'   : "http://www.wpzoom.com/framework-tour/",
-                    'version'   : "1.0"
-                };
+            // If we have selected text, close the shortcode.
+            if ( '' != selected ) {
+                selected += '[/' + v + ']';
             }
-        }
-    );
 
-    tinymce.PluginManager.add("wpzoomShortcodes", tinymce.plugins.wpzoomShortcodes);
-})();
+            editor.insertContent( '[' + v + ']' + selected );
+        });
+
+        // Add a button that opens a window
+        editor.addButton( 'wpzoom_shortcodes_button', {
+            type: 'menubutton',
+            icon: 'wpz-shortcode-icon',
+            classes: 'btn wpz-shortcode-button',
+            tooltip: 'Insert Shortcode',
+            menu: [
+                {text: 'Button', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'button', { title: 'Button' } ); } },
+                {text: 'Icon Link', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'ilink', { title: 'Icon Link' } ); } },
+                {text: 'Info Box', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'box', { title: 'Info Box' } ); } },
+
+                {text: 'Column Layout', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'column', { title: 'Column Layout' } ); } },
+
+                {text: 'List Generator', menu: [
+                    {text: 'Unordered List', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'unordered_list', { title: 'Unordered List' } ); } },
+                    {text: 'Ordered List', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'ordered_list', { title: 'Ordered List' } ); } }
+                ]},
+
+                {text: 'Social Buttons', menu: [
+                    {text: 'Social Profile Icon', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'social_icon', { title: 'Social Profile Icon' } ); } },
+                    {text: 'Twitter', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'twitter', { title: 'Twitter' } ); } },
+                    {text: 'Like on Facebook', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'fblike', { title: 'Like on Facebook' } ); } },
+                ]},
+            ]
+        });
+    } );
+} )();

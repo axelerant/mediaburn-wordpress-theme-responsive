@@ -5,7 +5,7 @@
  * @package WPZOOM
  */
 class WPZOOM {
-    public static $wpzoomVersion = '1.4.0';
+    public static $wpzoomVersion = '1.4.1';
     public static $wpzoomPath;
 
     public static $assetsPath;

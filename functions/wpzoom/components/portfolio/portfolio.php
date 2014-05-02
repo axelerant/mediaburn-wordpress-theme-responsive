@@ -38,7 +38,7 @@ class ZOOM_Portfolio {
             'show_ui'             => true,
             'show_in_menu'        => true,
             'menu_position'       => 12,
-            'menu_icon'           => WPZOOM::$assetsPath . '/images/components/portfolio/portfolio.png',
+             'menu_icon'          => 'dashicons-portfolio',
             'can_export'          => true,
             'delete_with_user'    => false,
             'hierarchical'        => false,

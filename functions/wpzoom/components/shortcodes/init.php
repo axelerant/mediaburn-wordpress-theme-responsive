@@ -68,7 +68,14 @@ class WPZOOM_Shortcodes_Init {
      * Add functionality to the tinyMCE editor as an external plugin.
      */
     public function filter_mce_external_plugins( $plugins ) {
-        $plugins['wpzoomShortcodes'] = WPZOOM::$assetsPath . '/js/shortcode-generator/editor-plugin.js';
+        global $wp_version;
+        $suffix = '';
+
+        if ( version_compare( $wp_version, '3.9', '<' ) ) {
+            $suffix = '.3.8';
+        }
+
+        $plugins['wpzoomShortcodes'] = WPZOOM::$assetsPath . '/js/shortcode-generator/editor-plugin' . $suffix . '.js';
 
         return $plugins;
     }

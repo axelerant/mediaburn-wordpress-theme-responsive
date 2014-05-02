@@ -449,3 +449,209 @@ div.full #content div.singlepost,
 }
 
 }
+
+/* >>> ADDED BY DEZIO1900 */
+	
+	#main .homepage-slider-with-sidebar-wrapper:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+		#main .homepage-slider-with-sidebar-wrapper > ul ~ * {
+			float: right;
+			width: 70%;
+		}
+
+		#main .homepage-slider-with-sidebar-wrapper > ul {
+			float: left;
+			width: 25%;
+			margin-bottom: 10px;
+		}
+
+			#main .homepage-slider-with-sidebar-wrapper .widgettitle {
+				padding: 0 0 10px;
+				font-size: 18px;
+				color: #af5436;
+			}
+
+			#main .homepage-slider-with-sidebar-wrapper ul.menu, #main .homepage-slider-with-sidebar-wrapper ul.menu ul {
+				margin: 0;
+				padding: 0;
+				background-color: #b05739;
+				border: 2px solid #8c452d;
+			}
+
+			#main .homepage-slider-with-sidebar-wrapper ul.menu {
+				padding: 10px 0;
+				-webkit-border-radius: 7px;
+				-moz-border-radius: 7px;
+				border-radius: 7px;
+			}
+
+				#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children {
+					position: relative;
+					margin: 0;
+					padding: 0;
+					display: block;
+				}
+
+					#main .homepage-slider-with-sidebar-wrapper ul.menu li > a {
+						display: block;
+						outline: none;
+						text-decoration: none;
+						margin: 0;
+						color: #fff;
+						padding: 7px 12px;
+						font-family: 'Muli', sans-serif;
+						font-size: 18px;
+						white-space: nowrap;
+					}
+
+					#main .homepage-slider-with-sidebar-wrapper ul.menu li:hover > a {
+						background-color: #8c452d;
+					}
+
+					#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children > ul {
+						position: absolute;
+						top: -2px;
+						left: 100%;
+						z-index: 5000;
+						display: none;
+					}
+
+					#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children:hover > ul {
+						display: block;
+					}
+
+		#main .homepage-slider-with-sidebar-wrapper #featPosts {
+			margin-top: 10px;
+		}
+
+			#main .homepage-slider-with-sidebar-wrapper #featPosts .cover {
+				width: 50%;
+			}
+
+				#main .homepage-slider-with-sidebar-wrapper #featPosts .cover img {
+					width: 100%;
+					height: auto;
+				}
+				
+	#postFuncs, #homeBlog, #menu, div.widget > h3 {
+		background: #ffdc7c url('images/2014-nav-background.png') repeat-x 0 0;
+	}
+				
+	div.widget {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+				
+		div.widget > h3 {
+			padding: 5px;
+		}
+	
+	#postFuncs > h2, #homeBlog > h2, .widget > h3 {
+		color: #af5436;
+		font-family: 'Muli', sans-serif;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	
+	#postFuncs, #homeBlog {
+		height: auto;
+	}
+	
+	#menu {
+		margin-top: 10px;
+	}
+	
+	#menu, div.widget > h3, 
+	#postFuncs, 
+	#homeBlog,
+	#searchform input#searchsubmit {
+		-webkit-border-radius: 7px;
+		-moz-border-radius: 7px;
+		border-radius: 7px;
+	}
+	
+		#menu #nav {
+			float: none;
+		}
+				
+			#menu > ul > li > a {
+				color: #af5436;
+				font-family: 'Muli', sans-serif;
+				font-size: 20px;
+				white-space: nowrap;
+				line-height: 1;
+				display: inline-block;
+				padding-top: 7px;
+				padding-bottom: 7px;
+				margin: 0;
+				-webkit-border-radius: 7px;
+				-moz-border-radius: 7px;
+				border-radius: 7px;
+				font-weight: normal;
+			}
+					
+			#menu > ul > li:hover > a, 
+			#menu > ul > li.current-menu-item > a,
+			#searchform input#searchsubmit,
+			#content ul.grid li:hover {
+				background-color: #fff4d9;
+			}
+					
+			#menu > ul > li.current-menu-item > a {
+				font-weight: bold;
+			}
+			
+			#searchform input#searchsubmit {
+				/* color: #af5436; */
+				/* border: none; */
+			}
+	
+	
+	@media screen and (max-width: 768px) {
+
+		#main .homepage-slider-with-sidebar-wrapper:after {
+			content: none;
+			display: none;
+			clear: none;
+		}
+
+			#main .homepage-slider-with-sidebar-wrapper > ul, #main .homepage-slider-with-sidebar-wrapper > ul ~ * {
+				float: none;
+				display: block;
+				width: 100%;
+			}
+
+				#main .homepage-slider-with-sidebar-wrapper ul.menu ul {
+					border: none;
+				}
+
+					#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children {
+						position: static;
+					}
+
+						#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children > ul {
+							position: static;
+							display: none;
+							margin-left: 15px;
+							background-color: #9f492c;
+						}
+
+						#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children:hover > ul {
+							display: none;
+						}
+
+						#main .homepage-slider-with-sidebar-wrapper ul.menu li.active > ul {
+							display: block !important;
+						}
+
+			#main .homepage-slider-with-sidebar-wrapper #featPosts .cover {
+				width: 50%;
+			}
+
+	}
+
+/* <<< ADDED BY DEZIO1900 */

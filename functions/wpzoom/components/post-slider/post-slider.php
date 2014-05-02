@@ -155,10 +155,10 @@ class ZOOM_Post_Slider {
 
     public function admin_head() {
         ?>
-        <style type="text/css">
+       <style type="text/css">
         .slider_btn_add { margin:22px 0 0 10px; }
         .wpzoom_slider li, .wpzoom_slider li * { margin: 0; }
-        .wpzoom_slider li { float: left; position: relative; text-align: center; background-color: #eee; padding: 5px; border: 1px solid #e0e0e0; border-radius: 4px; margin: 10px !important; }
+        .wpzoom_slider li {  display: inline-block; vertical-align: top; position: relative; text-align: center; background-color: #eee; padding: 5px; border: 1px solid #e0e0e0; border-radius: 4px; margin: 10px !important; }
         .wpzoom_slider li .hndle, .wpzoom_slider li .wpzoom_slide_remove { display: none; position: absolute; top: -6px; z-index: 10; height: auto; padding: 4px; border-radius: 50%; }
         .wpzoom_slider li:hover .hndle, .wpzoom_slider li:hover .wpzoom_slide_remove { display: block; }
         .wpzoom_slider li .hndle { left: -6px; }
@@ -166,9 +166,9 @@ class ZOOM_Post_Slider {
         .wpzoom_slider li .wpzoom_slide_remove { right: -6px; font-size: 18px !important; line-height: 11px; }
         .wpzoom_slider.onlyone li .wpzoom_slide_remove { display: none; }
         .wpzoom_slider li .wpzoom_slide_remove:hover, .wpzoom_slider li .wpzoom_slide_remove:active { color: red; border-color: red; }
-        .wpzoom_slide_preview { display: block; position: relative; background: #f7f7f7 url('<?php echo WPZOOM::$assetsPath . '/images/components/post-slider'; ?>/image.png') center no-repeat; background-size: cover; height: 180px; width: 250px; border: 1px solid #ccc; margin-bottom: 8px !important; }
-        .video .wpzoom_slide_preview { background-image: url('<?php echo WPZOOM::$assetsPath . '/images/components/post-slider'; ?>/video.png'); }
-        .wpzoom_slide_preview_image { display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #fff; height: 100%; width: 100%; border: 0; outline: none; }
+        .wpzoom_slide_preview { display: block; position: relative; background: #f7f7f7 url('<?php echo plugins_url( '/image.png', __FILE__ ); ?>') center no-repeat; background-size: cover; min-height: 167px; width: 250px; border: 1px solid #ccc; margin-bottom: 8px !important; }
+        .video .wpzoom_slide_preview { background-image: url('<?php echo plugins_url( '/video.png', __FILE__ ); ?>'); }
+        .wpzoom_slide_preview_image { display: block; top: 0; left: 0; right: 0; bottom: 0; background: #fff; height: 100%; width: 100%; border: 0; outline: none; }
         .video .wpzoom_slide_preview_image { display: none; }
         .wpzoom_slide_embed_code { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; text-shadow: 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7; background: rgba(247, 247, 247, 0.7); height: 100%; width: 100%; resize: none; padding: 8px; border: 0; -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; }
         .wpzoom_slider li.video:hover .wpzoom_slide_embed_code, .wpzoom_slide_embed_code:focus { display: block; }
