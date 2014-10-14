@@ -452,6 +452,30 @@ div.full #content div.singlepost,
 
 /* >>> ADDED BY DEZIO1900 */
 	
+	div.navigation > a, div.navigation > a > i {
+		vertical-align: middle;
+		font-size: 12px;
+		line-height: 1;
+		margin: 0;
+	}
+	
+	div.navigation > a > i {
+		font-size: 16px;
+	}
+	
+	div.navigation > a.page-goto {
+		text-decoration: underline;
+	}
+	
+	div.navigation > a.disabled:link,
+	div.navigation > a.disabled:visited,
+	div.navigation > a.disabled:hover,
+	div.navigation > a.disabled:active {
+		background: none;
+		cursor: default;
+		color: #c2af9b;
+	}
+	
 	#main .homepage-slider-with-sidebar-wrapper:after {
 		content: "";
 		display: table;
@@ -652,6 +676,13 @@ div.full #content div.singlepost,
 				width: 50%;
 			}
 
+	}
+	
+	div.vzaar_media_player object,
+	div.vzaar_media_player video {
+		max-width: 100% !important;
+		/*width: 100% !important;
+		height: auto !important;*/
 	}
 
 /* <<< ADDED BY DEZIO1900 */

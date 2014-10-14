@@ -4,9 +4,13 @@ class ZOOM_Post_Slider {
     private $sliders = array();
 
     public function __construct( $args ) {
-        foreach ( $args as $key => $slider_args ) {
-            if ( is_string( $slider_args ) ) {
-                $this->sliders[ $slider_args ] = array();
+        foreach ( $args as $sliders ) {
+            if ( is_string( $sliders ) ) {
+                $this->sliders[ $sliders ] = array();
+            } else {
+                foreach ($sliders as $key => $slider_args) {
+                    $this->sliders[ $key ] = $slider_args;
+                }
             }
         }
 
@@ -32,7 +36,8 @@ class ZOOM_Post_Slider {
                 array( $this, 'show_metabox' ), // $callback
                 $page,                          // $page
                 'normal',                       // $context
-                'high'                          // $priority
+                'high',                         // $priority
+                $args
             );
         }
     }
@@ -40,12 +45,20 @@ class ZOOM_Post_Slider {
     /**
      * Displays custom metabox with slider options.
      *
+     * @param $post
+     * @param $metabox
+     * 
      * @return void
      */
-    public function show_metabox() {
-        global $post;
+    public function show_metabox( $post, $metabox ) {
+        $defaults = array(
+            'image' => true,
+            'video' => true
+        );
 
-        $meta = get_post_meta($post->ID, 'wpzoom_slider', true);
+        $args = wp_parse_args( $metabox['args'], $defaults );
+
+        $meta = get_post_meta( $post->ID, 'wpzoom_slider', true );
 
         $i = 1;
 
@@ -55,9 +68,14 @@ class ZOOM_Post_Slider {
                     <span class="sort hndle button" title="Click and drag to reorder this slide"><img src="' . WPZOOM::$assetsPath . '/images/components/post-slider/move.png" /></span>
                     <span class="wpzoom_slide_remove button" title="Click to remove this slide">&times;</span>
                     <div class="wpzoom_slide_type">
-                        <input name="wpzoom_slider[%1$d][slideType]" type="hidden" class="wpzoom_slide_type_input" value="%2$s" />
-                        <span class="button">Type: <a href="" class="wpzoom_slide_type_image">Image</a> | <a href="" class="wpzoom_slide_type_video">Video</a></span>
-                    </div>
+                        <input name="wpzoom_slider[%1$d][slideType]" type="hidden" class="wpzoom_slide_type_input" value="%2$s" />'
+
+                        . '<span class="button">Type: '
+                            . ($args['image'] ? '<a href="" class="wpzoom_slide_type_image">Image</a>' : '')
+                            . ($args['video'] ? ' | <a href="" class="wpzoom_slide_type_video">Video</a>' : '')
+                        . '</span>'
+
+                    . '</div>
 
                     <div class="wpzoom_slide_preview"%6$s>
                         <img src="%4$s" height="180" width="250" class="wpzoom_slide_preview_image" data-defaultimg="' . $default_image . '" />
@@ -105,8 +123,6 @@ class ZOOM_Post_Slider {
         }
 
         echo '</ul><br class="clear" />';
-
-        return;
     }
 
     public function save_post( $post_id ) {
@@ -155,7 +171,7 @@ class ZOOM_Post_Slider {
 
     public function admin_head() {
         ?>
-       <style type="text/css">
+        <style type="text/css">
         .slider_btn_add { margin:22px 0 0 10px; }
         .wpzoom_slider li, .wpzoom_slider li * { margin: 0; }
         .wpzoom_slider li {  display: inline-block; vertical-align: top; position: relative; text-align: center; background-color: #eee; padding: 5px; border: 1px solid #e0e0e0; border-radius: 4px; margin: 10px !important; }
@@ -166,8 +182,8 @@ class ZOOM_Post_Slider {
         .wpzoom_slider li .wpzoom_slide_remove { right: -6px; font-size: 18px !important; line-height: 11px; }
         .wpzoom_slider.onlyone li .wpzoom_slide_remove { display: none; }
         .wpzoom_slider li .wpzoom_slide_remove:hover, .wpzoom_slider li .wpzoom_slide_remove:active { color: red; border-color: red; }
-        .wpzoom_slide_preview { display: block; position: relative; background: #f7f7f7 url('<?php echo plugins_url( '/image.png', __FILE__ ); ?>') center no-repeat; background-size: cover; min-height: 167px; width: 250px; border: 1px solid #ccc; margin-bottom: 8px !important; }
-        .video .wpzoom_slide_preview { background-image: url('<?php echo plugins_url( '/video.png', __FILE__ ); ?>'); }
+        .wpzoom_slide_preview { display: block; position: relative; background: #f7f7f7 url('<?php echo WPZOOM::$assetsPath . '/images/components/post-slider/image.png' ?>') center no-repeat; background-size: cover; min-height: 167px; width: 250px; border: 1px solid #ccc; margin-bottom: 8px !important; }
+        .video .wpzoom_slide_preview { background-image: url('<?php echo WPZOOM::$assetsPath . '/images/components/post-slider/video.png' ?>'); }
         .wpzoom_slide_preview_image { display: block; top: 0; left: 0; right: 0; bottom: 0; background: #fff; height: 100%; width: 100%; border: 0; outline: none; }
         .video .wpzoom_slide_preview_image { display: none; }
         .wpzoom_slide_embed_code { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; text-shadow: 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7, 0 0 3px #f7f7f7; background: rgba(247, 247, 247, 0.7); height: 100%; width: 100%; resize: none; padding: 8px; border: 0; -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; }
@@ -189,8 +205,10 @@ class ZOOM_Post_Slider {
         .video a.wpzoom_slide_type_image { cursor: pointer; font-weight: normal; color: #21759b; }
         .video a.wpzoom_slide_type_image:hover, .video a.wpzoom_slide_type_image:active { color: #d54e21; }
         .video a.wpzoom_slide_type_video { cursor: default; font-weight: bold; color: #555; }
-        .wpzoom_slider li .wpzoom_slide_caption { width: 100%; resize:vertical;  }
+        .wpzoom_slider li .wpzoom_slide_caption { width: 100%; resize:vertical; }
+        .wpzoom_slider li .wpzoom_slide_url { width: 100%; margin:6px 0 0; }
         .wpzoom_slider li .wpzoom_slide_description { width:250px; resize:vertical; margin:6px 0 0; }
+        .wpzoom_slider li br { display: block; }
         </style>
     <?php
     }

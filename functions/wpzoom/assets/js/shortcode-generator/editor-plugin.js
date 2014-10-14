@@ -45,6 +45,7 @@
                 {text: 'Info Box', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'box', { title: 'Info Box' } ); } },
 
                 {text: 'Column Layout', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'column', { title: 'Column Layout' } ); } },
+                {text: 'Tabbed Layout', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'tab', { title: 'Tabbed Layout' } ); } },
 
                 {text: 'List Generator', menu: [
                     {text: 'Unordered List', onclick: function() { editor.execCommand( 'wpzOpenDialog', false, 'unordered_list', { title: 'Unordered List' } ); } },

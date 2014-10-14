@@ -239,7 +239,7 @@ class WPZOOM_Admin_Settings_Fields {
     public function select_layout($args) {
         extract($args);
 
-        $out.= "<label>$name</label>";
+        $out.= "<label class=\"layout_label\">$name</label>";
 
         foreach ($options as $key => $val) {
             $out.= "<input id=\"$id--$key\" type=\"radio\" class=\"RadioClass\" name=\"$id\" value=\"$key\"";
@@ -254,7 +254,7 @@ class WPZOOM_Admin_Settings_Fields {
             $out.= "\">";
             $out.= "<img src=\"".WPZOOM::$wpzoomPath."/assets/images/layout-$key.png\" alt=\"\" title=\"$val\" class=\"layout-select\" /></label>";
         }
-        $out.= "<p>$desc</p>";
+        $out.= "<p class=\"layout_desc\">$desc</p>";
 
         return $out;
     }

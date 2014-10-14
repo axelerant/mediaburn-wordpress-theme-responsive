@@ -52,9 +52,24 @@ register_sidebar(array(
 	    <!-- ADD 'MULI' FONT FOR VERICAL MENU -->
 	    <link href="http://fonts.googleapis.com/css?family=Muli" rel="stylesheet" type="text/css">
 	    
+	    <!-- LOAD FONT AWESOME CSS FILE -->
+	    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	    
 	    <!-- ADD INLINE SCRIPTS TO HEAD SECTION -->
 	    <script>
 	    	jQuery(function($){
+	    		
+	    		$('div.navigation a[href="#"], div.navigation a.disabled').click(function(event) { event.preventDefault(); });
+	    		
+	    		// GO TO PAGE
+	    		$('div.navigation a.page-goto').click(function(event) {
+	    			
+	    			var page_goto = prompt("Go to page:");
+	    			
+	    			if( page_goto != null )
+	    				window.location.href = $(this).closest('.navigation').data('pagination-link').replace( "%#%", page_goto );
+	    			
+	    		});
 	    		
 	    		// ADD VERTICAL MENU SCRIPT FOR SMALL SCREENS
 	    		$('#main .homepage-slider-with-sidebar-wrapper ul.menu li.menu-item-has-children > a').click(function(event) {

@@ -37,10 +37,18 @@ class ui {
             return;
         }
 
-        if (is_front_page()) {
+        if ( is_front_page() && is_home() ) {
             if (option::get('seo_home_title') == 'Site Title - Site Description') echo get_bloginfo('name').option::get('title_separator').get_bloginfo('description');
             if (option::get('seo_home_title') == 'Site Description - Site Title') echo get_bloginfo('description').option::get('title_separator').get_bloginfo('name');
             if (option::get('seo_home_title') == 'Site Title') echo get_bloginfo('name');
+        } elseif ( is_front_page() ) {
+            if (option::get('seo_home_title') == 'Site Title - Site Description') echo get_bloginfo('name').option::get('title_separator').get_bloginfo('description');
+            if (option::get('seo_home_title') == 'Site Description - Site Title') echo get_bloginfo('description').option::get('title_separator').get_bloginfo('name');
+            if (option::get('seo_home_title') == 'Site Title') echo get_bloginfo('name');
+        } elseif ( is_home() ) {
+            if (option::get('seo_posts_title') == 'Site Title - Page Title') echo get_bloginfo('name').option::get('title_separator').wp_title('',false,'');
+            if (option::get('seo_posts_title') == 'Page Title - Site Title') echo wp_title('',false,'').option::get('title_separator').get_bloginfo('name');
+            if (option::get('seo_posts_title') == 'Page Title') echo wp_title('',false,'');
         }
 
         #if the title is being displayed on single posts/pages

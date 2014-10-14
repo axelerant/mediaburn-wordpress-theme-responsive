@@ -99,6 +99,38 @@ class option {
         return $globalOptions;
     }
 
+    public static function getJsOptions() {
+        $rOptions = self::getOptionsArray();
+        $options = array();
+
+        foreach ($rOptions as $column) {
+            foreach ($column as $row) {
+                if (!isset($row['js']) || !isset($row['id'])) {
+                    continue;
+                }
+
+                $id = $row['id'];
+                $value = get_option(self::$prefix . $id);
+
+                if ($value === false) {
+                    $options[$id] = isset($row['std']) ? $row['std'] : '';
+                } else {
+                    $options[$id] = $value;
+                }
+
+                if ($options[$id] === 'on') {
+                    $options[$id] = true;
+                }
+
+                if ($options[$id] === 'off') {
+                    $options[$id] = false;
+                }
+            }
+        }
+
+        return $options;
+    }
+
     public static function setupOptions($xoptions, $decode = false) {
         if ($decode) {
             $xoptions = unserialize(stripslashes(base64_decode($xoptions)));

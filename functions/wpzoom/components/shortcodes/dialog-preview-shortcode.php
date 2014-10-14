@@ -13,7 +13,8 @@ $valid_shortcodes = array(
     'threecol_one', 'threecol_one_last', 'threecol_two', 'threecol_two_last',
     'fourcol_one', 'fourcol_one_last', 'fourcol_two', 'fourcol_two_last', 'fourcol_three', 'fourcol_three_last',
     'fivecol_one', 'fivecol_one_last', 'fivecol_two', 'fivecol_two_last', 'fivecol_three', 'fivecol_three_last', 'fivecol_four', 'fivecol_four_last',
-    'sixcol_one', 'sixcol_one_last', 'sixcol_two', 'sixcol_two_last', 'sixcol_three', 'sixcol_three_last', 'sixcol_four', 'sixcol_four_last', 'sixcol_five', 'sixcol_five_last'
+    'sixcol_one', 'sixcol_one_last', 'sixcol_two', 'sixcol_two_last', 'sixcol_three', 'sixcol_three_last', 'sixcol_four', 'sixcol_four_last', 'sixcol_five', 'sixcol_five_last',
+    'tabs', 'tab'
 );
 
 

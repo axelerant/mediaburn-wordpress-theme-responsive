@@ -1,11 +1,22 @@
 <?php
+/*
+Plugin Name: ZOOM Framework
+Plugin URI: http://www.wpzoom.com/framework-tour
+Description: ZOOM Framework is a platform which comes packaged with every WPZOOM Theme.
+Version: 1.4.5
+Author: WPZOOM
+Author URI: http://www.wpzoom.com
+Text Domain: wpzoom
+License: GPLv3 or later
+*/
+
 /**
  * WPZOOM Framework Core & Heart
  *
  * @package WPZOOM
  */
 class WPZOOM {
-    public static $wpzoomVersion = '1.4.1';
+    public static $wpzoomVersion = '1.4.5';
     public static $wpzoomPath;
 
     public static $assetsPath;

@@ -21,6 +21,8 @@ p.wpz-sc-box, div.wpz-sc-box {margin:1em 0 1.5em 0; padding:9px 10px 9px 15px; c
 .wpz-sc-box.info:before { content:"\f129"; color:#5986C0; }
 .wpz-sc-box.note:before { content:"\f071"; color:#F7CD17; }
 
+.none_class:before { content: none !important; }
+
 /*-------------------------------------------------------------------------------------------*/
 /* Buttons */
 /*-------------------------------------------------------------------------------------------*/
@@ -149,6 +151,17 @@ a.wpz-sc-button.silver:hover {
 .twocol-one,.threecol-one,.threecol-two,.fourcol-one,.fourcol-two,.fourcol-three,.fivecol-one,.fivecol-two,.fivecol-three,.fivecol-four,.sixcol-one,.sixcol-two,.sixcol-three,.sixcol-four,.sixcol-five{float:left;margin-right:4%;position:relative;}
 .last{clear:right;margin-right:0 !important;}
 
+/*-------------------------------------------------------------------------------------------*/
+/* Tabber */
+/*-------------------------------------------------------------------------------------------*/
+
+.shortcode-tabs { background:#FFFFFF; clear: both; height:auto; display: block; padding:5px; }
+.shortcode-tabs ul.tab_titles { padding:0; background:none; border:none; margin:0; clear: both; float: left; border-left: 1px solid #ccc; position: relative; z-index: 2; }
+.shortcode-tabs ul.tab_titles li.nav-tab { background:none; padding:0; float: left; display:inline; color: #ffffff; margin:0; cursor: pointer; border-top: 1px solid #ccc; border-right: 1px solid #ccc; }
+.shortcode-tabs ul.tab_titles li.nav-tab.ui-tabs-selected a, .shortcode-tabs ul.tab_titles li.nav-tab a:hover { background:#fff; text-decoration:none;}
+.shortcode-tabs ul.tab_titles li.nav-tab a { color:#777; display: block;float: left;padding: 8px 15px; font-size: 14px; line-height: 1.5; }
+.shortcode-tabs .tab { background:#fff; padding:10px; text-align: left; clear: both; border: 1px solid #ccc; top: -1px; position: relative; z-index: 1; }
+.shortcode-tabs ul.tab_titles li.ui-state-active { border-bottom: 1px solid #FFFFFF; font-weight: bold;}
 
 /*-------------------------------------------------------------------------------------------*/
 /* Twitter */
@@ -192,7 +205,7 @@ a.wpz-sc-button.silver:hover {
 
 .entry .shortcode-unorderedlist ul li, .shortcode-unorderedlist ul li, .entry .shortcode-unorderedlist ul li ul, .shortcode-unorderedlist ul li ul {
    list-style-type: none;
-    background: url() no-repeat scroll left top;
+    background: no-repeat scroll left top;
 }
 .entry .shortcode-unorderedlist ul li:before, .shortcode-unorderedlist ul li:before { font-family: FontAwesome; margin:0 5px 0 0; font-size: 16px; }
 
@@ -211,7 +224,7 @@ a.wpz-sc-button.silver:hover {
 .entry .shortcode-orderedlist ol li, .entry .shortcode-orderedlist ol li ol, .shortcode-orderedlist ol li {
    list-style-type: none;
    margin-left: 25px;
-   background: url() no-repeat scroll left top;
+   background: no-repeat scroll left top;
 }
 
 .entry .shortcode-orderedlist.armenian ol li, .shortcode-orderedlist.armenian ol li { list-style-type: armenian; }

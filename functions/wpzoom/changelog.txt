@@ -1,6 +1,30 @@
 ZOOM Framework Changelog
 ---------
 
+v 1.4.5 - June 30, 2014
+
+    - Tabs shortcode: fixed bug with tabs containing iframes (ex. Google Maps).
+
+
+v 1.4.4 - June 16, 2014
+
+    - New WPZOOM Shortcode: Tabs
+
+
+v 1.4.3 - May 15, 2014
+
+    - Remove unecessary code.
+
+    M   components/dashboard/dashboard.php
+
+
+v 1.4.2 - May 15, 2014
+
+    - Improved dashboard widget algorithm for fetching latest theme thumbnail.
+
+    M   components/dashboard/dashboard.php
+
+
 v 1.4.1 - April 18, 2014
 
     - Fixed compatibility issues with WordPress 3.9 for Shortcode Generator

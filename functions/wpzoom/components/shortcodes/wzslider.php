@@ -1,6 +1,6 @@
 <?php
 
-if (function_exists('add_image_size' )) { 
+if (function_exists('add_image_size' )) {
     add_image_size('wzslider-thumbnail', 9999, 55);
 }
 
@@ -32,16 +32,16 @@ class wzslider {
         } else {
             self::$scriptAtts.= "height: 500,";
         }
-        
+
         if ($atts['info'] != 'false') {
             self::$scriptAtts.= "showInfo: true,";
         } else {
             self::$scriptAtts.= "showInfo: false,";
         }
- 
+
         if ($atts['lightbox'] != 'true') {
             self::$scriptAtts.= "clicknext: true,";
-        } 
+        }
 
         if ($atts['lightbox'] != 'false') {
             self::$scriptAtts.= "lightbox: true,";
@@ -74,8 +74,8 @@ class wzslider {
         );
 
         $attachments = get_posts($args);
-        
-        if ($attachments) {       
+
+        if ($attachments) {
             $content = '<div id="galleria-' . $post->ID . '">';
 
             foreach ($attachments as $attachment) {
@@ -89,10 +89,10 @@ class wzslider {
 
                 $alt = $attachment->post_content;
                 $title = apply_filters('the_title', $attachment->post_title);
-            
+
                 $content .= '<a href="' . $url . '"><img title="' . $title . '" alt="' . $alt . '" src="' . $thumb . '"></a>';
             }
-            
+
             $content .= '</div>';
         }
 
@@ -108,7 +108,7 @@ class wzslider {
     }
 
     static public function loadStatic() {
-        wp_enqueue_script('galleria', WPZOOM::$assetsPath . '/js/galleria.js', array('jquery'), null, true); 
+        wp_enqueue_script('galleria', WPZOOM::$assetsPath . '/js/galleria.js', array('jquery'), null, true);
         wp_enqueue_script('wzslider', WPZOOM::$assetsPath . '/js/wzslider.js', array('jquery'), null, true);
      }
 
@@ -125,8 +125,8 @@ class wzslider {
             $options = $galleria['options'];
             $script.= "$('#galleria-$id').galleria({{$options}});";
         }
-       
-        $script.= '});})(jQuery);</script>'; 
+
+        $script.= '});})(jQuery);</script>';
 
         // fire
         echo $script;
@@ -137,19 +137,19 @@ class wzslider {
             return $posts;
         }
 
-        $found = false;
+        // $found = false;
 
-        foreach ($posts as $post) {
-            if (stripos($post->post_content, '[wzslider') !== false) {
-                $found = true;
-            }
+        // foreach ($posts as $post) {
+        //     if (stripos($post->post_content, '[wzslider') !== false) {
+        //         $found = true;
+        //     }
 
-            break;
-        }
-        
+        //     break;
+        // }
+
         $found = true;
 
-        if ($found) {            
+        if ($found) {
             add_action('wp_footer', 'wzslider::galleriaScript');
 
             add_action('wp_enqueue_scripts', 'wzslider::loadStatic');
@@ -166,7 +166,7 @@ add_action('the_posts', 'wzslider::check');
 // Adding shortcode button to TynyMCE editor
 function add_slider_button() {
     if (!current_user_can('edit_posts') && ! current_user_can('edit_pages')) {
-        return;   
+        return;
     }
 
     if (get_user_option('rich_editing') == 'true') {

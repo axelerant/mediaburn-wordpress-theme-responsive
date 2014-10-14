@@ -60,7 +60,8 @@ class ZOOM_Portfolio {
                 'editor',
                 'excerpt',
                 'author',
-                'thumbnail'
+                'thumbnail',
+                'comments'
             ),
 
             /* Labels used when displaying the posts. */

@@ -174,6 +174,8 @@ class WPZOOM_Admin_Settings_Page {
             wp_send_json_success();
         }
 
+        new WPZOOM_Admin_Settings_Sanitization();
+
         foreach(option::$options as $name => $null) {
             $ignored = array('misc_export', 'misc_export_widgets', 'misc_debug');
             if (in_array($name, $ignored)) continue;

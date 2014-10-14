@@ -25,7 +25,7 @@
 				<?php if (option::get('sidebar_home') == 'off') { echo "</div>"; }
 			} // if $paged < 2 ?> 
 		           
-			<?php if (option::get('featured_enable') == 'on' && is_home() && $paged < 2) { get_template_part('wpzoom', 'slider'); } // Show the Featured Slider? ?>
+			<?php if (option::get('featured_enable') == 'on' && is_home() /*&& $paged < 2*/) { get_template_part('wpzoom', 'slider'); } // Show the Featured Slider? ?>
 		</div>
 		<!-- <<< CHANGED BY DEZIO1900 -->
 		

@@ -17,6 +17,7 @@ if (is_admin()) {
     require_once WPZOOM_INC . "/components/admin/settings-fields.php";
     require_once WPZOOM_INC . "/components/admin/settings-interface.php";
     require_once WPZOOM_INC . "/components/admin/settings-page.php";
+    require_once WPZOOM_INC . "/components/admin/settings-sanitization.php";
     require_once WPZOOM_INC . "/components/dashboard/dashboard.php";
 
     require_once WPZOOM_INC . "/components/updater/updater.php";

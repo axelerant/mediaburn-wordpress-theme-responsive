@@ -378,6 +378,10 @@ div.cleaner {
     width:281px;
 }
 
+.zoomForms label.layout_label {
+    width:181px;
+}
+
 .zoomForms input,
 .zoomForms select,
 .zoomForms textarea {
@@ -466,6 +470,10 @@ div.cleaner {
     color: #888686;
     line-height: 16px;
     word-wrap: break-word;
+}
+
+.zoomForms p.layout_desc {
+    width: 400px;
 }
 
 .zoomForms code {

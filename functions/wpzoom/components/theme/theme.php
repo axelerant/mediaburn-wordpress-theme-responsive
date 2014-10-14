@@ -19,7 +19,7 @@ class WPZOOM_Theme {
         add_action('wp_head', array(__CLASS__, 'generate_options_css'));
         add_action('wp_head', array(__CLASS__, 'header_code'));
 
-        add_action('wp_enqueue_scripts', array(__CLASS__, 'theme_styles'));
+        add_action('wp_enqueue_scripts', array(__CLASS__, 'theme_styles'), 20);
         add_action('wp_enqueue_scripts', array(__CLASS__, 'theme_scripts'));
 
         add_action('wp_footer', array(__CLASS__, 'footer_code'));
@@ -237,9 +237,13 @@ class WPZOOM_Theme {
         }
 
         /**
-         * Enqueue initialization script, HTML5 Shim included
+         * Enqueue initialization script, HTML5 Shim included.
+         *
+         * Only if this file exists.
          */
-        wp_enqueue_script('wpzoom-init',  get_template_directory_uri() . '/js/init.js', array('jquery'));
+        if (file_exists(get_template_directory() . '/js/init.js')) {
+            wp_enqueue_script('wpzoom-init',  get_template_directory_uri() . '/js/init.js', array('jquery'));
+        }
 
         /**
          * Enqueue all theme scripts specified in config file to the footer

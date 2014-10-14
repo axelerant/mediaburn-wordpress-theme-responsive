@@ -80,6 +80,7 @@
                         b.addSeparator();
 
                         that.addWithDialog(b, "Column Layout", "column");
+                        that.addWithDialog(b, "Tabbed Layout", "tab");
                         b.addSeparator();
 
                         c = b.addMenu({ 'title' : "List Generator" });

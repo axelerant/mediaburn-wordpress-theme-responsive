@@ -39,12 +39,12 @@ function wpz_shortcode_box( $atts, $content = null ) {
 
    $custom = '';
     if ( $icon == "none" ) {
-        $custom = ' style="padding-left:15px;background-image:none;"';
+        $none_class = ' none_class ';
     } elseif ( $icon ) {
         $custom = ' style="padding-left:50px;background-image:url( '.$icon.' ); background-repeat:no-repeat; background-position:20px 45%;"';
     }
 
-   return '<div class="wpz-sc-box '.$type.' '.$size.' '.$style.' '.$border.'"'.$custom.'>' . do_shortcode( wpz_remove_wpautop( $content ) ) . '</div>';
+   return '<div class="wpz-sc-box '.$none_class.' '.$type.' '.$size.' '.$style.' '.$border.'"'.$custom.'>' . do_shortcode( wpz_remove_wpautop( $content ) ) . '</div>';
 }
 add_shortcode( 'box', 'wpz_shortcode_box' );
 
@@ -398,6 +398,83 @@ function wpz_shortcode_sixcol_five_last($atts, $content = null) {
 }
 add_shortcode( 'sixcol_five_last', 'wpz_shortcode_sixcol_five_last' );
 
+/*-----------------------------------------------------------------------------------*/
+/* Tabs - [tabs][/tabs]
+/*-----------------------------------------------------------------------------------*/
+
+function wpz_shortcode_tabs ( $atts, $content = null ) {
+    if ( ! defined( 'WPZ_SHORTCODE_TABS_JS' ) ) define( 'WPZ_SHORTCODE_TABS_JS', true );
+
+    $defaults = array( 'title' => '', 'css' => '', 'id' => '' );
+
+    extract( shortcode_atts( $defaults, $atts ) );
+
+    // If no unique ID is set, set the ID as a random number between 1 and 100 (to make sure each tab group is unique).
+    if ( $id == '' ) { $id = rand( 1, 100 ); }
+    if ( $css != '' ) { $css = ' ' . $css; }
+
+    // Extract the tab titles for use in the tabber widget.
+    preg_match_all( '/tab title="([^\"]+)"/i', $content, $matches, PREG_OFFSET_CAPTURE );
+
+    $tab_titles = array();
+    $tabs_class = 'tab_titles';
+
+    if ( isset( $matches[1] ) ) { $tab_titles = $matches[1]; }
+
+    $titles_html = '';
+
+    if ( count( $tab_titles ) ) {
+        if ( $title ) { $titles_html .= '<h4 class="tab_header"><span>' . esc_html( $title ) . '</span></h4>'; $tabs_class .= ' has_title'; }
+
+        $titles_html .= '<ul class="' . esc_attr( $tabs_class ) . '">' . "\n";
+
+        $counter = 1;
+
+        foreach ( $tab_titles as $t ) {
+            $titles_html .= '<li class="nav-tab"><a href="#tab-' . esc_attr( $counter ) . '">' . esc_html( $t[0] ) . '</a></li>' . "\n";
+            $counter++;
+        } // End FOREACH Loop
+
+        $titles_html .= '</ul>' . "\n";
+    } // End IF Statement
+
+    return '<div id="tabs-' . esc_attr( $id ) . '" class="shortcode-tabs ' . esc_attr( $css ) . '">' . $titles_html . do_shortcode( $content ) . "\n" . '<div class="fix"></div><!--/.fix-->' . "\n" . '</div><!--/.tabs-->';
+}
+
+add_shortcode( 'tabs', 'wpz_shortcode_tabs' );
+
+/*-----------------------------------------------------------------------------------*/
+/* A Single Tab - [tab title="The title goes here"][/tab]
+/*-----------------------------------------------------------------------------------*/
+
+function wpz_shortcode_tab_single ( $atts, $content = null ) {
+    $defaults = array( 'title' => 'Tab' );
+
+    extract( shortcode_atts( $defaults, $atts ) );
+
+    $class = '';
+
+    if ( $title != 'Tab' ) {
+        $class = ' tab-' . sanitize_title( $title );
+    }
+
+    return '<div class="tab' . esc_attr( $class ) . '">' . do_shortcode( $content ) . '</div><!--/.tab-->';
+}
+
+add_shortcode( 'tab', 'wpz_shortcode_tab_single' );
+
+function wpz_shortcode_tabs_register_js() {
+    wp_register_script( 'wpz-shortcode-tabs', WPZOOM::$assetsPath . '/js/shortcode-tabs.js', array( 'jquery', 'jquery-ui-tabs' ), '20140529', true );
+}
+add_action( 'init', 'wpz_shortcode_tabs_register_js' );
+
+function wpz_shortcode_tabs_print_js() {
+    if ( ! defined( 'WPZ_SHORTCODE_TABS_JS' ) ) return;
+
+    wp_print_scripts( 'wpz-shortcode-tabs' );
+}
+
+add_action( 'wp_footer', 'wpz_shortcode_tabs_print_js' );
 
 /*-----------------------------------------------------------------------------------*/
 /* Icon links - ilink
@@ -465,13 +542,13 @@ function wpz_shortcode_socialicon ( $atts, $content = null ) {
     $_default_icon = '';
 
     $_supported_profiles = array(
-                                    'facebook' => 'facebook.com',
-                                    'twitter' => 'twitter.com',
-                                    'youtube' => 'youtube.com',
-                                    'delicious' => 'delicious.com',
-                                    'flickr' => 'flickr.com',
-                                    'linkedin' => 'linkedin.com'
-                                );
+        'facebook' => 'facebook.com',
+        'twitter' => 'twitter.com',
+        'youtube' => 'youtube.com',
+        'delicious' => 'delicious.com',
+        'flickr' => 'flickr.com',
+        'linkedin' => 'linkedin.com'
+    );
 
     $_profile_to_display = '';
     $_alt_text = '';
