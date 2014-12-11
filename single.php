@@ -259,8 +259,13 @@ if ( ! empty( $document_embed ) )
 				</div>
 
 <?php
-if ( function_exists( 'nrelate_related' ) ) {
-	nrelate_related();
+global $contextly;
+if ( 'video' == $post->post_type || 'document' == $post->post_type ) {
+	if ( ! empty( $contextly ) ) {
+		if ( is_class( $contextly ) && 'Contextly' == get_class( $contextly ) ) {
+			$contextly->echoAdminMetaboxContent();
+		}
+	}
 }
 ?>
 
