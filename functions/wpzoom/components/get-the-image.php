@@ -175,7 +175,7 @@ function get_the_image( $args = array() ) {
     }
 
     /* Allow plugins/theme to override the final output. */
-    $image_html = apply_filters( 'get_the_image', $image_html );
+    $image_html = apply_filters( 'get_the_image', $image_html, $args );
 
     /* If $format is set to 'array', return an array of image attributes. */
     if ( 'array' == $format ) {

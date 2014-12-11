@@ -1,6 +1,11 @@
 ZOOM Framework Changelog
 ---------
 
+v 1.4.6 - November 6, 2014
+
+    - Refactored `ui::is_wp_version` function to work correctly with WP4+
+
+
 v 1.4.5 - June 30, 2014
 
     - Tabs shortcode: fixed bug with tabs containing iframes (ex. Google Maps).

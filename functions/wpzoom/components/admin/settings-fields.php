@@ -68,6 +68,15 @@ class WPZOOM_Admin_Settings_Fields {
         return $out;
     }
 
+    public function paragraph($args) {
+        extract($args);
+
+        $out.= "<div class=\"checkbox\"><label>$name</label>";
+        $out.= "<p>$desc</p></div>";
+
+        return $out;
+    }
+
     public function checkbox($args) {
         extract($args);
 

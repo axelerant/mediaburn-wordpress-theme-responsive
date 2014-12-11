@@ -145,7 +145,9 @@ function fitv_video_posts_filter( $query ) {
 	if ( $do_it ) {
 		$query->query_vars['post_type']	= array( 'video' );
 
-		$fitv_post_ids			= $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'wpzoom_post_embed_code' AND meta_value != ''" );
+		$query         = "SELECT p.ID FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id WHERE p.post_status = 'publish' AND pm.meta_key = 'wpzoom_post_embed_code' AND pm.meta_value != ''";
+		// $query         = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'wpzoom_post_embed_code' AND meta_value != ''";
+		$fitv_post_ids = $wpdb->get_col( $query );
 
 		if ( empty( $fitv_post_ids ) )
 			return;
@@ -180,6 +182,9 @@ function fitv_video_posts_relevanssi_where( $where ) {
 
 	if ( $do_it && ! empty( $posts ) ) {
 		$where					.= ' AND doc IN ( ' . implode( ',', $posts ) . ' ) ';
+		// global $wpdb;
+		// $query  = "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'wpzoom_post_embed_code' AND meta_value != ''";
+		// $where .= ' AND doc IN ( ' . $query . ' ) ';
 	}
 
 	return $where;

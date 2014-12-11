@@ -16,7 +16,7 @@ require_once( __DIR__ . '/../lib/attachments.php' );
 // require_once( __DIR__ . '/../lib/debug.php' );
 // require_once( __DIR__ . '/../lib/excerpts.php' );
 require_once( __DIR__ . '/../lib/gallery.php' );
-require_once( __DIR__ . '/../lib/javascript.php' );
+// require_once( __DIR__ . '/../lib/javascript.php' );
 // require_once( __DIR__ . '/../lib/pages.php' );
 require_once( __DIR__ . '/../lib/posts.php' );
 // require_once( __DIR__ . '/../lib/query.php' );
@@ -131,8 +131,8 @@ add_shortcode( 'gallery', 'custom_gallery_shortcode' );
 // add_filter( 'get_the_excerpt', 'excerpt_remove_social' );
 
 // javascript
-add_filter( 'script_loader_src', 'aihrus_remove_script_version', 15, 1 );
-add_filter( 'style_loader_src', 'aihrus_remove_script_version', 15, 1 );
+add_filter( 'script_loader_src', '_remove_script_version', 15, 1 );
+add_filter( 'style_loader_src', '_remove_script_version', 15, 1 );
 
 // posts
 add_action( 'pre_ping', 'disable_self_ping' );
@@ -214,190 +214,5 @@ function aihrus_option_siteurl( $siteurl ) {
 }
 
 define( 'EDD_BYPASS_NAME_CHECK', true );
-
-// add_filter( 'wp_mail_from', 'aihrus_mail_from' );
-function aihrus_mail_from( $email ) {
-	// NOTE: replace [at] with @. This was causing problems with the syntax highlighter.
-	return 'support@aihr.us';
-}
-
-// add_filter( 'wp_mail_from_name', 'aihrus_mail_from_name' );
-function aihrus_mail_from_name( $name ) {
-	return 'Aihrus Support';
-}
-
-remove_action( 'template_redirect', 'edd_csau_checkout_display' );
-
-
-function aihrus_edd_discount_field() {
-
-	if( ! isset( $_GET['payment-mode'] ) && count( edd_get_enabled_payment_gateways() ) > 1 && ! edd_is_ajax_enabled() )
-		return; // Only show once a payment method has been selected if ajax is disabled
-
-	if ( edd_has_active_discounts() && edd_get_cart_total() ) {
-?>
-	<fieldset id="edd_discount_code">
-		<span><legend><?php _e( 'Have a Discount Code?', 'edd' ); ?></legend></span>
-		<p id="edd_show_discount" style="display:none;">
-			<a href="#" class="edd_discount_link"><?php echo _x( 'Click to enter it', 'Entering a discount code', 'edd' ); ?></a>
-		</p>
-		<p id="edd-discount-code-wrap">
-			<label class="edd-label" for="edd-discount">
-				<img src="<?php echo EDD_PLUGIN_URL; ?>assets/images/loading.gif" id="edd-discount-loader" style="display:none;"/>
-				<?php _e( 'Discount Code', 'edd' ); ?>
-			</label>
-			<span class="edd-description"><?php _e( 'Enter a coupon code if you have one.', 'edd' ); ?></span>
-			<input class="edd-input" type="text" id="edd-discount" name="edd-discount" placeholder="<?php _e( 'Enter discount', 'edd' ); ?>"/>
-		</p>
-	</fieldset>
-<?php
-	}
-}
-
-
-remove_action( 'edd_checkout_form_top', 'edd_discount_field', -1 );
-add_action( 'edd_checkout_form_top', 'aihrus_edd_discount_field', -1 );
-
-
-function aihrus_edd_sl_renewal_form() {
-
-	if( ! edd_sl_renewals_allowed() )
-		return;
-
-	$apply_url   = add_query_arg( array( 'edd_action' => 'apply_license_renewal' ), edd_get_checkout_uri() );
-	$apply_url   = wp_nonce_url( $apply_url, 'edd_apply_license_renewal' );
-	$renewal     = EDD()->session->get( 'edd_is_renewal' );
-	$renewal_key = EDD()->session->get( 'edd_renewal_key' );
-	$preset_key  = ! empty( $_GET['key'] ) ? urldecode( $_GET['key'] ) : '';
-
-	ob_start(); ?>
-	<form method="post" id="edd_sl_renewal_form">
-		<fieldset id="edd_sl_renewal_fields">
-			<span><legend><?php _e( 'Renewing a License Key?', 'edd' ); ?></legend></span>
-			<?php if( empty( $renewal ) || empty( $renewal_key ) ) : ?>
-				<p id="edd-license-key-wrap">
-					<label class="edd-label" for="edd-license-key"><?php _e( 'License Key', 'edd' ); ?></label>
-					<span class="edd-description"><?php _e( 'Enter the license key you wish to renew. Leave blank to purchase a new one.', 'edd' ); ?></span>
-					<input class="edd-input required" type="text" name="edd_license_key" placeholder="<?php _e( 'Enter your license key', 'edd' ); ?>" id="edd-license-key" value="<?php echo $preset_key; ?>"/>
-				</p>
-				<p id="edd-license-key-submit">
-					<input type="hidden" name="edd_action" value="apply_license_renewal"/>
-					<input type="submit" class="edd-submit button" value="<?php _e( 'Apply License Renewal', 'edd_sl' ); ?>"/>
-				</p>
-			<?php else : ?>
-				<p id="edd-license-key-wrap">
-					<label class="edd-label" for="edd-license-key"><?php _e( 'License Key Being Renewed', 'edd' ); ?></label>
-					<span class="edd-renewing-key"><?php echo $renewal_key; ?></span>
-				</p>
-				<p id="edd-license-key-submit">
-					<input type="hidden" name="edd_action" value="cancel_license_renewal"/>
-					<input type="submit" class="edd-submit button" value="<?php _e( 'Cancel License Renewal', 'edd_sl' ); ?>"/>
-				</p>
-			<?php endif; ?>
-		</fieldset>
-	</form>
-<?php
-	echo ob_get_clean();
-}
-
-
-remove_action( 'edd_before_purchase_form', 'edd_sl_renewal_form', -1 );
-add_action( 'edd_before_purchase_form', 'aihrus_edd_sl_renewal_form', -1 );
-
-
-function aihrus_edd_payment_mode_select() {
-	$gateways = edd_get_enabled_payment_gateways();
-	$page_URL = edd_get_current_page_url();
-	do_action('edd_payment_mode_top'); ?>
-	<?php if( ! edd_is_ajax_enabled() ) { ?>
-	<form id="edd_payment_mode" action="<?php echo $page_URL; ?>" method="GET">
-	<?php } ?>
-		<fieldset id="edd_payment_mode_select">
-			<?php do_action( 'edd_payment_mode_before_gateways_wrap' ); ?>
-			<div id="edd-payment-mode-wrap">
-				<span><legend><?php _e( 'Select Payment Method', 'edd' ); ?></legend></span>
-<?php
-
-	do_action( 'edd_payment_mode_before_gateways' );
-
-	foreach ( $gateways as $gateway_id => $gateway ) :
-		$checked = checked( $gateway_id, edd_get_default_gateway(), false );
-	$checked_class = $checked ? ' edd-gateway-option-selected' : '';
-	echo '<label for="edd-gateway-' . esc_attr( $gateway_id ) . '" class="edd-gateway-option' . $checked_class . '" id="edd-gateway-option-' . esc_attr( $gateway_id ) . '">';
-	echo '<input type="radio" name="payment-mode" class="edd-gateway" id="edd-gateway-' . esc_attr( $gateway_id ) . '" value="' . esc_attr( $gateway_id ) . '"' . $checked . '>' . esc_html( $gateway['checkout_label'] );
-	echo '</label>';
-endforeach;
-
-do_action( 'edd_payment_mode_after_gateways' );
-
-?>
-			</div>
-			<?php do_action( 'edd_payment_mode_after_gateways_wrap' ); ?>
-		</fieldset>
-		<fieldset id="edd_payment_mode_submit" class="edd-no-js">
-			<p id="edd-next-submit-wrap">
-				<?php echo edd_checkout_button_next(); ?>
-			</p>
-		</fieldset>
-	<?php if( ! edd_is_ajax_enabled() ) { ?>
-	</form>
-	<?php } ?>
-	<div id="edd_purchase_form_wrap"></div><!-- the checkout fields are loaded into this-->
-<?php do_action('edd_payment_mode_bottom');
-}
-
-
-remove_action( 'edd_payment_mode_select', 'edd_payment_mode_select' );
-add_action( 'edd_payment_mode_select', 'aihrus_edd_payment_mode_select' );
-
-
-global $edd_slg_render;
-remove_action( 'edd_checkout_form_top', array( $edd_slg_render, 'edd_slg_social_login_buttons' ) );
-add_action( 'edd_before_purchase_form', array( $edd_slg_render, 'edd_slg_social_login_buttons' ), -2 );
-
-// @ref http://wordpress.stackexchange.com/a/113550/8219
-function my_embed_oembed_html( $html ) {
-	return preg_replace( '@src="https?:@', 'src="', $html );
-}
-add_filter( 'embed_oembed_html', 'my_embed_oembed_html' );
-
-// @ref http://stackoverflow.com/questions/11821419/wordpress-plugin-notifications
-$func = function ($a) {
-	global $wp_version;
-
-	return (object) array(
-		'last_checked' => time(),
-		'version_checked' => $wp_version,
-	);
-};
-// add_filter( 'pre_site_transient_update_core', $func );
-// add_filter( 'pre_site_transient_update_plugins', $func );
-// add_filter( 'pre_site_transient_update_themes', $func );
-
-unregister_widget('featured_user_widget');
-
-
-/**
- * Given a Payment ID, extract the transaction ID
- *
- * @since  2.1
- * @param  string $payment_id       Payment ID
- * @return string                   Transaction ID
- */
-function edd_paypal_get_payment_transaction_id( $payment_id ) {
-
-	$transaction_id = '';
-	$notes = edd_get_payment_notes( $payment_id );
-
-	foreach ( $notes as $note ) {
-		if ( preg_match( '/^PayPal Transaction ID: ([^\s]+)/', $note->comment_content, $match ) ) {
-			$transaction_id = $match[1];
-			continue;
-		}
-	}
-
-	return apply_filters( 'edd_paypal_set_payment_transaction_id', $transaction_id, $payment_id );
-}
-add_filter( 'edd_get_payment_transaction_id-paypal', 'edd_paypal_get_payment_transaction_id', 10, 1 );
 
 ?>
