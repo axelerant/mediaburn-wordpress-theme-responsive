@@ -223,6 +223,14 @@ if ( $excerpt ) {
 	echo '</p></em>';
 }
 ?>
+<?php
+$do_contextly = false;
+global $contextly;
+if ( ! empty( $contextly ) && is_object( $contextly ) && 'Contextly' == get_class( $contextly ) ) {
+	remove_action( 'the_content', array( $contextly, 'addSnippetWidgetToContent' ) );
+	$do_contextly = true;
+}
+?>
 	 				<?php the_content(); ?>
 <?php
 $document_assets				= get_field('document_assets', $post->ID);
@@ -259,13 +267,8 @@ if ( ! empty( $document_embed ) )
 				</div>
 
 <?php
-global $contextly;
-if ( 'video' == $post->post_type || 'document' == $post->post_type ) {
-	if ( ! empty( $contextly ) ) {
-		if ( is_class( $contextly ) && 'Contextly' == get_class( $contextly ) ) {
-			$contextly->echoAdminMetaboxContent();
-		}
-	}
+if ( $do_contextly ) {
+	echo $contextly->getSnippetWidget();
 }
 ?>
 
